@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:CrossApp"
+             x:Class="CrossApp.MainPage"
+             Title="Json Page">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="openTestoApp"  Order="Primary" Clicked="ToolbarItem_Clicked"/>
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout>
+                <Grid Padding="5,10,5,0" ColumnSpacing="1" RowSpacing="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="1*" />
+                    </Grid.ColumnDefinitions>
+                    <!-- Riga 0 -->
+                    <Label Text="Temperatura Fumi" Grid.ColumnSpan="2" VerticalOptions="CenterAndExpand" LineBreakMode="TailTruncation"/>
+                    <Entry Grid.Column="2" Placeholder="C°" VerticalOptions="CenterAndExpand" Text="{Binding INT_SENS_TEMP_FUMI, Mode=TwoWay}"/>
+                    <!-- Riga 1 -->
+                    <Label Text="Temp. Aria comburente" Grid.Row="1" Grid.ColumnSpan="2" VerticalOptions="CenterAndExpand" LineBreakMode="TailTruncation"/>
+                    <Entry Grid.Row="1" Grid.Column="2" Placeholder="C°" VerticalOptions="CenterAndExpand" Text="{Binding INT_SENS_TEMP_ARIA, Mode=TwoWay}"/>
+                    <!-- Riga 2 -->
+                    <Label Text="O2" Grid.Row="2" Grid.ColumnSpan="2" VerticalOptions="CenterAndExpand" LineBreakMode="TailTruncation"/>
+                    <Entry Grid.Row="2" Grid.Column="2" Placeholder="%" VerticalOptions="CenterAndExpand" Text="{Binding INT_SENS_O2, Mode=TwoWay}"/>
+                    <!-- Riga 3 -->
+                    <Label Text="CO2" Grid.Row="3" Grid.ColumnSpan="2" VerticalOptions="CenterAndExpand" LineBreakMode="TailTruncation"/>
+                    <Entry Grid.Row="3" Grid.Column="2" Placeholder="%" VerticalOptions="CenterAndExpand" Text="{Binding INT_SENS_CO2, Mode=TwoWay}"/>
+                    <!-- Riga 4 -->
+                    <Label Text="Bacharach Val. 1" Grid.Row="4" Grid.ColumnSpan="2" VerticalOptions="CenterAndExpand" LineBreakMode="TailTruncation"/>
+                    <Entry Grid.Row="4" Grid.Column="2" VerticalOptions="CenterAndExpand" Text="{Binding INT_SENS_BACHARACH_1, Mode=TwoWay}"/>
+                    <!-- Riga 5 -->
+                    <Label Text="Bacharach Val. 2" Grid.Row="5" Grid.ColumnSpan="2" VerticalOptions="CenterAndExpand" LineBreakMode="TailTruncation"/>
+                    <Entry Grid.Row="5" Grid.Column="2" VerticalOptions="CenterAndExpand" Text="{Binding INT_SENS_BACHARACH_2, Mode=TwoWay}"/>
+                    <!-- Riga 6 -->
+                    <Label Text="Bacharach Val. 3" Grid.Row="6" Grid.ColumnSpan="2" VerticalOptions="CenterAndExpand" LineBreakMode="TailTruncation"/>
+                    <Entry Grid.Row="6" Grid.Column="2" VerticalOptions="CenterAndExpand" Text="{Binding INT_SENS_BACHARACH_3, Mode=TwoWay}"/>
+                    <!-- Riga 7 -->
+                    <Label Text="CO corretto" Grid.Row="7" Grid.ColumnSpan="2" VerticalOptions="CenterAndExpand" LineBreakMode="TailTruncation"/>
+                    <Entry Grid.Row="7" Grid.Column="2" Placeholder="ppm" VerticalOptions="CenterAndExpand" Text="{Binding INT_SENS_CO_CORRETTO, Mode=TwoWay}"/>
+                    <!-- Riga 8 -->
+                    <Label Text="Rendimento di combustione" Grid.Row="8" Grid.ColumnSpan="2" VerticalOptions="CenterAndExpand" LineBreakMode="TailTruncation"/>
+                    <Entry Grid.Row="8" Grid.Column="2" Placeholder="%" VerticalOptions="CenterAndExpand" Text="{Binding INT_SENS_REND_COMB, Mode=TwoWay}"/>
+                    <!-- Riga 9 -->
+                    <Label Text="Rendimento minimo di legge" Grid.Row="9" Grid.ColumnSpan="2" VerticalOptions="CenterAndExpand" LineBreakMode="TailTruncation"/>
+                    <Entry Grid.Row="9" Grid.Column="2" Placeholder="%" VerticalOptions="CenterAndExpand" Text="{Binding INT_SENS_REND_MIN, Mode=TwoWay}"/>
+                    <!-- Riga 10 -->
+                    <Label Text="Modulo Termico" Grid.Row="10" Grid.ColumnSpan="2" VerticalOptions="CenterAndExpand" LineBreakMode="TailTruncation"/>
+                    <Entry Grid.Row="10" Grid.Column="2" VerticalOptions="CenterAndExpand" Text="{Binding INT_MOD_TERM, Mode=TwoWay}"/>
+                </Grid>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

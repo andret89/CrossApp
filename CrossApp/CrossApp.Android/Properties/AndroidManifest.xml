@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.companyname.CrossApp" android:versionCode="1" android:versionName="1.0">
+	<uses-sdk android:minSdkVersion="19" android:targetSdkVersion="27" />
+	<application android:label="CrossApp.Android"></application>
+	<intent-filter>
+		<action android:name="android.intent.action.MAIN" />
+		<category android:name="android.intent.category.LAUNCHER" />
+	</intent-filter>
+	<intent-filter>
+		<action android:name="android.intent.action.SEND" />
+		<category android:name="android.intent.category.DEFAULT" />
+		<data android:mimeType="application/json" />
+	</intent-filter>
+	<intent-filter>
+		<data android:scheme="testot330i+com.companyname.CrossApp" />
+		<action android:name="android.intent.action.VIEW" />
+		<category android:name="android.intent.category.DEFAULT" />
+		<category android:name="android.intent.category.BROWSABLE" />
+		<category android:name="android.intent.category.ACTION_SEND" />
+	</intent-filter>
+	<intent-filter>
+		<data android:scheme="file" />
+		<data android:host="*" />
+		<data android:mimeType="application/json" />
+		<action android:name="android.intent.action.VIEW" />
+		<category android:name="android.intent.category.BROWSABLE" />
+		<category android:name="android.intent.category.DEFAULT" />
+	</intent-filter>
+</manifest>
