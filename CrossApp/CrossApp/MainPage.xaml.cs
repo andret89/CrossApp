@@ -1,9 +1,13 @@
 ﻿using CrossApp.Models;
 using Newtonsoft.Json;
+using Plugin.FilePicker;
+using Plugin.FilePicker.Abstractions;
 using Plugin.Permissions;
 using Plugin.Permissions.Abstractions;
 using System;
+using System.IO;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
@@ -106,7 +110,47 @@ namespace CrossApp
 
         private void ToolbarItem_Clicked(object sender, EventArgs e)
         {
-            DependencyService.Get<ISenderService>().sendRequest();
+            ToolbarItem toolBarItem = (ToolbarItem)sender;
+            if (toolBarItem.Text.Equals("TestoApp"))
+            {
+               DependencyService.Get<ISenderService>().SendRequest();
+            }
+            else
+            {
+                DependencyService.Get<ISenderService>().GetFileChoice();
+
+                //OpenFilePickerAsync();
+            }
+        }
+
+        private async Task OpenFilePickerAsync()
+        {
+            try
+            {
+
+                FileData filedata = new FileData();
+                var crossFileData = CrossFilePicker.Current;
+                filedata = await crossFileData.PickFile();
+                byte[] data = filedata.DataArray;
+                string name = filedata.FileName;
+                foreach (byte b in filedata.DataArray)
+                {
+                    string attachment = b.ToString();
+                }
+
+                // the dataarray of the file will be found in filedata.DataArray 
+                // file name will be found in filedata.FileName;
+                //etc etc.
+                //var json = DependencyService.Get<ISenderService>().OpenFile(file);
+                //RequestPermisisionAsync(json);
+
+
+            }
+            catch (Exception ex)
+            {
+                //ExceptionHandler.ShowException(ex.Message);
+                Console.WriteLine(ex.Message);
+            }
         }
     }
 

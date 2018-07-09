@@ -10,6 +10,9 @@ using Android;
 using System.Threading.Tasks;
 using Plugin.CurrentActivity;
 using Plugin.Permissions;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
+using System;
 
 namespace CrossApp.Droid
 {
@@ -30,16 +33,82 @@ namespace CrossApp.Droid
             base.OnCreate(bundle);
 
             global::Xamarin.Forms.Forms.Init(this, bundle);
-           
-            var jsonStr = HandlerIntenetToJson();
-            if(jsonStr != null)
+
+            var jsonStr = ImportJson();
+            if (jsonStr != null)
                 LoadApplication(new App(jsonStr));
             else
                 LoadApplication(new App());
             //((App)Xamarin.Forms.Application.Current).DisplayJSON(json);
         }
 
-        public string HandlerIntenetToJson()
+        public string ImportJson()
+        {
+            var clipboard = (ClipboardManager)Application.Context.GetSystemService(ClipboardService);
+            var json = clipboard.Text;
+            if (IsValidJson(json))
+                return json;
+            return null;
+        }
+
+        private static bool IsValidJson(string strInput)
+        {
+            strInput = strInput.Trim();
+            if ((strInput.StartsWith("{") && strInput.EndsWith("}")) || //For object
+                (strInput.StartsWith("[") && strInput.EndsWith("]"))) //For array
+            {
+                try
+                {
+                    var obj = JToken.Parse(strInput);
+                    return true;
+                }
+                catch (Exception) //some other exception
+                { }
+            }
+            return false;
+        }
+        protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
+        {
+            base.OnActivityResult(requestCode, resultCode, data);
+
+            if (resultCode == Result.Canceled)
+            {
+                // Notify user file picking was cancelled.
+                Finish();
+            }
+            else
+            {
+                System.Diagnostics.Debug.Write(data.Data);
+                try
+                {
+                    var _uri = data.Data;
+
+                    var filePath = IOUtil.getPath(this, _uri);
+
+                    if (string.IsNullOrEmpty(filePath))
+                        filePath = _uri.Path;
+
+                    var file = IOUtil.readFile(filePath);
+
+                    //var fileName = GetFileName(this, _uri);
+
+                    //OnFilePicked(new FilePickerEventArgs(file, fileName, filePath));
+                }
+                catch (Exception readEx)
+                {
+                    // Notify user file picking failed.
+                    //OnFilePickCancelled();
+                    System.Diagnostics.Debug.Write(readEx);
+                }
+                finally
+                {
+                    Finish();
+                }
+            }
+
+        }
+
+        public string HandlerIntenetToJsonOld()
         {
             Intent intent = Intent;
             string type = intent.Type;
@@ -53,11 +122,11 @@ namespace CrossApp.Droid
                     var data = Intent.Data;
                     var filePathUri = Intent.GetParcelableExtra(key) as Android.Net.Uri;
                     Stream stream = ContentResolver.OpenInputStream(filePathUri);
-                    
+
                     using (var streamReader = new StreamReader(stream))
                     {
-                         jsonString = streamReader.ReadToEnd();
-                        
+                        jsonString = streamReader.ReadToEnd();
+
                     }
                 }
             }
@@ -68,6 +137,8 @@ namespace CrossApp.Droid
             PermissionsImplementation.Current.OnRequestPermissionsResult(requestCode, permissions, grantResults);
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
+    }
+}
 
         /*
         #region RuntimePermissions
@@ -159,6 +230,4 @@ namespace CrossApp.Droid
 
         #endregion
         */
-    }
-}
 

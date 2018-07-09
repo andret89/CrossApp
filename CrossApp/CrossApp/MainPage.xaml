@@ -5,7 +5,8 @@
              x:Class="CrossApp.MainPage"
              Title="Json Page">
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="openTestoApp"  Order="Primary" Clicked="ToolbarItem_Clicked"/>
+        <ToolbarItem Text="Import"  Order="Primary" Clicked="ToolbarItem_Clicked"/>
+        <ToolbarItem Text="TestoApp"  Order="Primary" Clicked="ToolbarItem_Clicked"/>
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <ScrollView>
