@@ -1,19 +1,15 @@
-﻿using System;
-
+﻿
 using Android.App;
 using Android.Content.PM;
 using Android.Runtime;
-using Android.Views;
 using Android.Widget;
 using Android.OS;
 using System.IO;
 using Android.Content;
 using Android;
-using Android.Util;
-using Android.Support.V4.App;
-using Android.Support.Design.Widget;
-using static CrossApp.Droid.Resource;
 using System.Threading.Tasks;
+using Plugin.CurrentActivity;
+using Plugin.Permissions;
 
 namespace CrossApp.Droid
 {
@@ -26,9 +22,10 @@ namespace CrossApp.Droid
         protected async override void OnCreate(Bundle bundle)
         {
 
-            await TryToGetPermissions();
+            //await TryToGetPermissions();
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
+            CrossCurrentActivity.Current.Init(this, bundle);
 
             base.OnCreate(bundle);
 
@@ -66,9 +63,13 @@ namespace CrossApp.Droid
             }
             return jsonString;
         }
+        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
+        {
+            PermissionsImplementation.Current.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+            base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
 
-
-
+        /*
         #region RuntimePermissions
 
         async Task TryToGetPermissions()
@@ -130,31 +131,34 @@ namespace CrossApp.Droid
             RequestPermissions(PermissionsGroupLocation, RequestLocationId);
 
         }
-        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Permission[] grantResults)
-        {
-            switch (requestCode)
-            {
-                case RequestLocationId:
-                    {
-                        if (grantResults[0] == (int)Android.Content.PM.Permission.Granted)
-                        {
-                            Toast.MakeText(this, "Special permissions granted", ToastLength.Short).Show();
 
-                        }
-                        else
-                        {
-                            //Permission Denied :(
-                            Toast.MakeText(this, "Special permissions denied", ToastLength.Short).Show();
 
-                        }
-                    }
-                    break;
-            }
-            base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
-        }
+
+        //public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Permission[] grantResults)
+        //{
+        //    switch (requestCode)
+        //    {
+        //        case RequestLocationId:
+        //            {
+        //                if (grantResults[0] == (int)Android.Content.PM.Permission.Granted)
+        //                {
+        //                    Toast.MakeText(this, "Special permissions granted", ToastLength.Short).Show();
+
+        //                }
+        //                else
+        //                {
+        //                    //Permission Denied :(
+        //                    //Toast.MakeText(this, "Special permissions denied", ToastLength.Short).Show();
+
+        //                }
+        //            }
+        //            break;
+        //    }
+        //    base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+        //}
 
         #endregion
-
+        */
     }
 }
 

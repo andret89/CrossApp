@@ -9,10 +9,16 @@ namespace CrossApp
 {
     public static class FileManager
     {
-        public async static Task<string> MyRead(string path,string fileName)
+        public async static Task<string> MyRead(this string path,string fileName)
         {
             String ret = null;
             IFolder rootFolder = await FileSystem.Current.GetFolderFromPathAsync(path);
+            ExistenceCheckResult folderexist = await rootFolder.CheckExistsAsync(fileName);
+            // already run at least once, don't overwrite what's there 
+            if (folderexist == ExistenceCheckResult.FileExists)
+            {
+                return ret;
+            }
             var file = await rootFolder.GetFileAsync(fileName);
             Stream stream = await file.OpenAsync(PCLStorage.FileAccess.Read);
             StreamReader streamReader = new StreamReader(stream);
