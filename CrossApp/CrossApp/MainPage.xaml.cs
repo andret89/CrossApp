@@ -29,13 +29,13 @@ namespace CrossApp
             return false;
         }
 
-        private Channel getChannelElem(JsonClassModel root, string key)
+        private Channel GetChannelElem(JsonClassModel root, string key)
         {
             Channel ret = null;
             var channels = root.channels;
             foreach (Channel channel in channels)
             {
-                if (channel.type.description.Equals(key))
+                if (channel.type.xmlid.Equals(key))
                     ret = channel;
             }
             return ret;
@@ -44,7 +44,8 @@ namespace CrossApp
         public async Task SetJsonToViewAsync(string jsonStr)
         {
             bool status = await RequestPermissionAsync();
-            if (status) {
+            if (status)
+            {
                 if (IsValidJson(jsonStr))
                 {
                     var objRoot = JsonConvert.DeserializeObject<JsonClassModel>(jsonStr);
@@ -52,25 +53,30 @@ namespace CrossApp
                     if (objRoot != null)
                     {
                         var interventi = new InterventiModel();
-                        var TF = getChannelElem(objRoot, "TF").values.First().value;
-                        var TA = getChannelElem(objRoot, "TA").values.First().value;
-                        var O2 = getChannelElem(objRoot, "O₂").values.First().value;
-                        var CO = getChannelElem(objRoot, "CO").values.First().value;
-                        var CO2 = getChannelElem(objRoot, "CO₂").values.First().value;
-                        var RC = getChannelElem(objRoot, "Rend").values.First().value;
+                        var TF = GetChannelElem(objRoot, "T_Flue").values.First().value;
+                        var TA = GetChannelElem(objRoot, "T_Air").values.First().value;
+                        var O2 = GetChannelElem(objRoot, "O2").values.First().value;
+                        var CO = GetChannelElem(objRoot, "CO_Dil").values.First().value;
+                        var CO2 = GetChannelElem(objRoot, "CO2").values.First().value;
+                        var RC = GetChannelElem(objRoot, "Effg").values.First().value;
 
-                        interventi.INT_SENS_TEMP_FUMI = TF;
-                        interventi.INT_SENS_TEMP_ARIA = TA;
-                        interventi.INT_SENS_O2 = O2;
-                        interventi.INT_SENS_CO2 = CO2;
-                        interventi.INT_SENS_CO_CORRETTO = CO;
-                        interventi.INT_SENS_REND_COMB = RC;
-                        //interventi.INT_SENS_REND_MIN =TF;
-                        //interventi.INT_MOD_TERM =TF;
+                        interventi.INT_SENS_TEMP_FUMI = DoubleRound(TF);
+                        interventi.INT_SENS_TEMP_ARIA = DoubleRound(TA);
+                        interventi.INT_SENS_O2 = DoubleRound(O2);
+                        interventi.INT_SENS_CO2 = DoubleRound(CO2);
+                        interventi.INT_SENS_CO_CORRETTO = DoubleRound(CO);
+                        interventi.INT_SENS_REND_COMB = DoubleRound(RC);
+                        //interventi.INT_SENS_REND_MIN =DoubleRound(TF);
+                        //interventi.INT_MOD_TERM =DoubleRound(TF);
                         BindingContext = interventi;
                     }
                 }
             }
+        }
+
+        private double DoubleRound(double value)
+        {
+            return Math.Round(value, 3);
         }
 
         private bool IsValidJson(string strInput)

@@ -31,9 +31,9 @@ namespace CrossApp
 			// Handle when your app resumes
 		}
 
-        internal void SendJson(string jsonString)
+        internal async void SendJson(string jsonString)
         {
-           (( MainPage)_navigationRoot.CurrentPage).SetJsonToViewAsync(jsonString);
+            await ((MainPage)_navigationRoot.CurrentPage).SetJsonToViewAsync(jsonString);
         }
     }
 }

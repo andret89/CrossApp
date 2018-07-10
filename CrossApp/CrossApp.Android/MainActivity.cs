@@ -50,7 +50,6 @@ namespace CrossApp.Droid
                     using (var streamReader = new StreamReader(stream))
                     {
                         jsonString = streamReader.ReadToEnd();
-
                     }
                 }
                 ((App)Xamarin.Forms.Application.Current).SendJson(jsonString);
