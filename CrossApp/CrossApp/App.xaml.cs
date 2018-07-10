@@ -1,3 +1,5 @@
+using CrossApp.Models;
+using Newtonsoft.Json;
 using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -38,5 +40,10 @@ namespace CrossApp
 		{
 			// Handle when your app resumes
 		}
+
+        internal void DisplayJSON(string filePath)
+        {
+            
+        }
     }
 }

@@ -9,6 +9,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrossApp.iOS", "CrossApp\Cr
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "CrossApp", "CrossApp\CrossApp\CrossApp.shproj", "{B4B84573-8F04-450E-9488-B8F2C86637D9}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{ABDA055C-5583-4F8C-A908-312B502F223D}"
+	ProjectSection(SolutionItems) = preProject
+		json330i.json = json330i.json
+		CrossApp\CrossApp\responseTesto.json = CrossApp\CrossApp\responseTesto.json
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		CrossApp\CrossApp\CrossApp.projitems*{2523236a-80a6-4405-b4a2-4d79e05d25ed}*SharedItemsImports = 4

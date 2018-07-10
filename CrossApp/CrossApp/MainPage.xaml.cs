@@ -36,16 +36,7 @@ namespace CrossApp
                 status = await Utils.CheckPermissions(Permission.Storage);
             if (status == PermissionStatus.Granted)
             {
-                if (jsonStr != null)
-                {
-                    var objDes = GetJson(jsonStr);
-                    if(objDes != null)
-                    {
-                        var interventi = new InterventiModel();
-                        Parser(objDes, interventi);
-                        BindingContext = interventi;
-                    }
-                }
+                SetJsonToView(jsonStr);
             }
         }
 
@@ -77,34 +68,6 @@ namespace CrossApp
             return ret;
         }
 
-        private JsonTreeModel GetJson(string jsonStr)
-        {
-            var jsonStrTrim = jsonStr; //.Trim();
-            if (jsonStrTrim != null )
-                return JsonConvert.DeserializeObject<JsonTreeModel>(jsonStrTrim);
-            else
-                return null;
-        }
-
-        private void Parser(JsonTreeModel objRoot, InterventiModel interventi)
-        {
-
-            var TF = getChannelElem(objRoot, "T_Flue").values.First().value;
-            var TA = getChannelElem(objRoot, "T_Air").values.First().value;
-            var O2 = getChannelElem(objRoot, "O2").values.First().value;
-            var CO = getChannelElem(objRoot, "CO_Dil").values.First().value;
-            var RC = getChannelElem(objRoot, "Efficiency").values.First().value;
-            var CO2 = objRoot.properties.First().values.First().value;
-
-            interventi.INT_SENS_TEMP_FUMI =TF;
-            interventi.INT_SENS_TEMP_ARIA = TA;
-            interventi.INT_SENS_O2 = O2;
-            interventi.INT_SENS_CO2 = CO2;
-            interventi.INT_SENS_CO_CORRETTO = CO;
-            interventi.INT_SENS_REND_COMB = RC;
-            //interventi.INT_SENS_REND_MIN = TF;
-            //interventi.INT_MOD_TERM = TF;
-        }
 
         async void Handle_Clicked(object sender, System.EventArgs e)
         {
@@ -116,25 +79,49 @@ namespace CrossApp
             ToolbarItem toolBarItem = (ToolbarItem)sender;
             if (toolBarItem.Text.Equals("TestoApp"))
             {
-               DependencyService.Get<ISenderService>().SendRequest();
+                DependencyService.Get<ISenderService>().SendRequest();
             }
             else
             {
                 var jsonStr = DependencyService.Get<ISenderService>().GetTextFromClipboard();
-                if (IsValidJson(jsonStr))
-                {
-                    var objDes = GetJson(jsonStr);
-                    if (objDes != null)
-                    {
-                        var interventi = new InterventiModel();
-                        Parser(objDes, interventi);
-                        BindingContext = interventi;
-                    }
-                }
-                //    RequestPermisisionAsync(jsonStr);
-
-                //OpenFilePickerAsync();
+                if (!SetJsonToView(jsonStr))
+                    DependencyService.Get<ISenderService>().GetFileChoice();
             }
+        }
+
+        private bool SetJsonToView(string jsonStr)
+        {
+            if (IsValidJson(jsonStr))
+            {
+                var objRoot =  JsonConvert.DeserializeObject<JsonTreeModel>(jsonStr);
+                
+                if (objRoot != null)
+                {
+                    var interventi = new InterventiModel();
+                    var TF = getChannelElem(objRoot, "T_Flue").values.First().value;
+                    var TA = getChannelElem(objRoot, "T_Air").values.First().value;
+                    var O2 = getChannelElem(objRoot, "O2").values.First().value;
+                    var CO = getChannelElem(objRoot, "CO_Dil").values.First().value;
+                    double RC=0;
+                    if (getChannelElem(objRoot, "Efficiency")!=null)
+                        RC = getChannelElem(objRoot, "Efficiency").values.First().value;
+                    double CO2=0;
+                    if (objRoot.properties.First().name.Equals("Fuel"))
+                        CO2 = objRoot.properties.First().values.First().value;
+                    //interventi.INT_SENS_CO2 = CO2;
+
+                    interventi.INT_SENS_TEMP_FUMI = TF;
+                    interventi.INT_SENS_TEMP_ARIA = TA;
+                    interventi.INT_SENS_O2 = O2;
+                    interventi.INT_SENS_CO_CORRETTO = CO;
+                    interventi.INT_SENS_REND_COMB = RC;
+                    //interventi.INT_SENS_REND_MIN = TF;
+                    //interventi.INT_MOD_TERM = TF;
+                    BindingContext = interventi;
+                    return true;
+                }
+            }
+            return false;
         }
 
         private bool IsValidJson(string strInput)

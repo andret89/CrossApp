@@ -1,6 +1,7 @@
 ﻿
 using Android.App;
 using Android.Content;
+using Plugin.CurrentActivity;
 using System.IO;
 using Xamarin.Forms;
 
@@ -46,8 +47,9 @@ namespace CrossApp.Droid
             var intent = new Intent();
             intent.SetType("application/*");
             intent.SetAction(Intent.ActionGetContent);
-            var cur = (MainActivity)Forms.Context;
-            cur.StartActivityForResult(Intent.CreateChooser(intent, "Select File JFT"), 1000);
+            intent.AddCategory(Intent.CategoryOpenable);
+            var activity = CrossCurrentActivity.Current.Activity;
+            activity.StartActivityForResult(Intent.CreateChooser(intent, "Select File JFT"), 1000);
         }
 
         public string GetTextFromClipboard()

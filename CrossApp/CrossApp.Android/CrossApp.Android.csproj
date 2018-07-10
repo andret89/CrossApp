@@ -71,6 +71,7 @@
     <Compile Include="IntentSender.cs" />
     <Compile Include="IOUtil.cs" />
     <Compile Include="MainActivity.cs" />
+    <Compile Include="MediaFileManager.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

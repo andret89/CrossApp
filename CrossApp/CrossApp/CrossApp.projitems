@@ -25,7 +25,4 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\JsonTreeModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Content Include="$(MSBuildThisFileDirectory)responseTesto.json" />
-  </ItemGroup>
 </Project>
