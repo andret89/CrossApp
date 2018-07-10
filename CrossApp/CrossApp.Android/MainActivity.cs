@@ -2,19 +2,12 @@
 using Android.App;
 using Android.Content.PM;
 using Android.Runtime;
-using Android.Widget;
 using Android.OS;
 using System.IO;
 using Android.Content;
-using Android;
-using System.Threading.Tasks;
 using Plugin.CurrentActivity;
 using Plugin.Permissions;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json;
 using System;
-using Android.Database;
-using Android.Provider;
 
 namespace CrossApp.Droid
 {
@@ -23,11 +16,9 @@ namespace CrossApp.Droid
     [Activity(Label = "CrossApp", Icon = "@mipmap/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
-
         protected override void OnCreate(Bundle bundle)
         {
 
-            //await TryToGetPermissions();
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
             CrossCurrentActivity.Current.Init(this, bundle);
@@ -36,12 +27,8 @@ namespace CrossApp.Droid
 
             global::Xamarin.Forms.Forms.Init(this, bundle);
 
-            var jsonStr = HandlerIntenetToJson();
-            if (jsonStr != null)
-                LoadApplication(new App(jsonStr));
-            else
-                LoadApplication(new App());
-            //((App)Xamarin.Forms.Application.Current).DisplayJSON(json);
+            LoadApplication(new App());
+            HandlerIntenetToJson();
         }
 
         protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
@@ -50,12 +37,10 @@ namespace CrossApp.Droid
 
             if (resultCode == Result.Ok)
             {
-                string jsonString=null;
+                string jsonString = null;
                 System.Diagnostics.Debug.Write(data.Data);
                 try
                 {
-
-                    //((App)Xamarin.Forms.Application.Current).DisplayJSON(filePath);
                     Stream stream = ContentResolver.OpenInputStream(data.Data);
 
                     using (var streamReader = new StreamReader(stream))
@@ -63,28 +48,16 @@ namespace CrossApp.Droid
                         jsonString = streamReader.ReadToEnd();
                     }
                 }
-                catch (Exception readEx) {
-
+                catch (Exception readEx)
+                {
                     System.Diagnostics.Debug.Write(readEx);
                 }
-                LoadApplication(new App(jsonString));
+                ((App)Xamarin.Forms.Application.Current).SendJson(jsonString);
             }
 
         }
 
-        public void getFilePath()
-        {
-            Intent intent = new Intent();
-            intent.AddCategory(Intent.CategoryOpenable);
-            // Set your required file type  
-            intent.SetType("text/xml");
-            intent.SetAction(Intent.ActionGetContent);
-            StartActivityForResult(Intent.CreateChooser(intent, "GET_FILE"), 1001);
-            //StartActivityForResult(intent, 1001);
-        }
-
-
-        public string HandlerIntenetToJson()
+        public void HandlerIntenetToJson()
         {
             Intent intent = Intent;
             string type = intent.Type;
@@ -101,11 +74,10 @@ namespace CrossApp.Droid
                     using (var streamReader = new StreamReader(stream))
                     {
                         jsonString = streamReader.ReadToEnd();
-
                     }
+                    ((App)Xamarin.Forms.Application.Current).SendJson(jsonString);
                 }
             }
-            return jsonString;
         }
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
         {
@@ -114,95 +86,3 @@ namespace CrossApp.Droid
         }
     }
 }
-
-        /*
-        #region RuntimePermissions
-
-        async Task TryToGetPermissions()
-        {
-            if ((int)Build.VERSION.SdkInt >= 23)
-            {
-                await GetPermissionsAsync();
-                return;
-            }
-
-
-        }
-        const int RequestLocationId = 0;
-
-        readonly string[] PermissionsGroupLocation =
-            {
-                            //TODO add more permissions
-                            Manifest.Permission.AccessCoarseLocation,
-                            Manifest.Permission.AccessFineLocation,
-                            Manifest.Permission.ReadExternalStorage,
-                            Manifest.Permission.ReadUserDictionary,
-                            Manifest.Permission.ReadProfile,
-             };
-
-        async Task GetPermissionsAsync()
-        {
-            const string permission = Manifest.Permission.AccessFineLocation;
-
-            if (CheckSelfPermission(permission) == (int)Android.Content.PM.Permission.Granted)
-            {
-                //TODO change the message to show the permissions name
-                Toast.MakeText(this, "Special permissions granted", ToastLength.Short).Show();
-                return;
-            }
-
-            if (ShouldShowRequestPermissionRationale(permission))
-            {
-                //set alert for executing the task
-                AlertDialog.Builder alert = new AlertDialog.Builder(this);
-                alert.SetTitle("Permissions Needed");
-                alert.SetMessage("The application need special permissions to continue");
-                alert.SetPositiveButton("Request Permissions", (senderAlert, args) =>
-                {
-                    RequestPermissions(PermissionsGroupLocation, RequestLocationId);
-                });
-
-                alert.SetNegativeButton("Cancel", (senderAlert, args) =>
-                {
-                    Toast.MakeText(this, "Cancelled!", ToastLength.Short).Show();
-                });
-
-                Dialog dialog = alert.Create();
-                dialog.Show();
-
-
-                return;
-            }
-
-            RequestPermissions(PermissionsGroupLocation, RequestLocationId);
-
-        }
-
-
-
-        //public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Permission[] grantResults)
-        //{
-        //    switch (requestCode)
-        //    {
-        //        case RequestLocationId:
-        //            {
-        //                if (grantResults[0] == (int)Android.Content.PM.Permission.Granted)
-        //                {
-        //                    Toast.MakeText(this, "Special permissions granted", ToastLength.Short).Show();
-
-        //                }
-        //                else
-        //                {
-        //                    //Permission Denied :(
-        //                    //Toast.MakeText(this, "Special permissions denied", ToastLength.Short).Show();
-
-        //                }
-        //            }
-        //            break;
-        //    }
-        //    base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
-        //}
-
-        #endregion
-        */
-

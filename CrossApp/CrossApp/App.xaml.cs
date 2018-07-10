@@ -10,19 +10,10 @@ namespace CrossApp
 	public partial class App : Application
 	{
         private NavigationPage _navigationRoot;
-        public App ()
-		{
-			InitializeComponent();
-
-            _navigationRoot = new NavigationPage(new MainPage());
-            MainPage = _navigationRoot;
-        }
-
-        public App(string jsonDataStr)
+        public App()
         {
             InitializeComponent();
-
-            _navigationRoot = new NavigationPage(new MainPage(jsonDataStr));
+            _navigationRoot = new NavigationPage(new MainPage());
             MainPage = _navigationRoot;
         }
 
@@ -41,9 +32,9 @@ namespace CrossApp
 			// Handle when your app resumes
 		}
 
-        internal void DisplayJSON(string filePath)
+        internal async void SendJson(string jsonString)
         {
-            
+            await ((MainPage)_navigationRoot.CurrentPage).SetJsonToViewAsync(jsonString);
         }
     }
 }
