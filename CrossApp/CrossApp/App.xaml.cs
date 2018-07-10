@@ -8,19 +8,11 @@ namespace CrossApp
 	public partial class App : Application
 	{
         private NavigationPage _navigationRoot;
+
         public App ()
 		{
 			InitializeComponent();
-
             _navigationRoot = new NavigationPage(new MainPage());
-            MainPage = _navigationRoot;
-        }
-
-        public App(string jsonDataStr)
-        {
-            InitializeComponent();
-
-            _navigationRoot = new NavigationPage(new MainPage(jsonDataStr));
             MainPage = _navigationRoot;
         }
 
@@ -38,5 +30,10 @@ namespace CrossApp
 		{
 			// Handle when your app resumes
 		}
+
+        internal void SendJson(string jsonString)
+        {
+           (( MainPage)_navigationRoot.CurrentPage).SetJsonToViewAsync(jsonString);
+        }
     }
 }

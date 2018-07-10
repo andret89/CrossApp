@@ -1,5 +1,6 @@
 ﻿using CrossApp.Models;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Plugin.Permissions;
 using Plugin.Permissions.Abstractions;
 using System;
@@ -14,50 +15,19 @@ namespace CrossApp
         public MainPage()
         {
             InitializeComponent();
-            RequestPermisisionAsync();
+            RequestPermissionAsync();
         }
 
-        public MainPage(string jsonStr)
-        {
-            InitializeComponent();
-            RequestPermisisionAsync(jsonStr);
-        }
 
-        private async Task RequestPermisisionAsync(string jsonStr=null)
+        private async Task<bool> RequestPermissionAsync()
         {
             var status = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Storage);
             if (status != PermissionStatus.Granted)
                 status = await Utils.CheckPermissions(Permission.Storage);
             if (status == PermissionStatus.Granted)
-            {
-                if (jsonStr != null)
-                {
-                    var objDes = GetJson(jsonStr);
-                    if(objDes != null)
-                    {
-                        var interventi = new InterventiModel();
-                        Parser(objDes, interventi);
-                        BindingContext = interventi;
-                    }
-                }
-            }
+                return true;
+            return false;
         }
-
-        //private async Task<string> PCLStorageSampleAsync()
-        //{
-        //    //IFolder rootFolder =  IFolder
-        //    string path = @"/storage/emulated/0/Android/data/de.testo.ias2015app/files/reports/";
-        //    var fileName = "2018-07-06_22-04-23.tjf";
-        //    string s = await FileManager.MyRead(path, fileName);
-        //    return s;
-        //}
-
-
-        /*
-        string path = @"/storage/emulated/0/Android/data/de.testo.ias2015app/files/reports/";
-        var fileName = "2018-07-06_22-04-23.tjf";
-        var task = FileManager.MyRead(path, fileName);
-        */
 
         private Channel getChannelElem(JsonClassModel root, string key)
         {
@@ -71,32 +41,53 @@ namespace CrossApp
             return ret;
         }
 
-        private JsonClassModel GetJson(string jsonStr)
+        public async Task SetJsonToViewAsync(string jsonStr)
         {
-            if (jsonStr != null )
-                return JsonConvert.DeserializeObject<JsonClassModel>(jsonStr);
-            else
-                return null;
+            bool status = await RequestPermissionAsync();
+            if (status) {
+                if (IsValidJson(jsonStr))
+                {
+                    var objRoot = JsonConvert.DeserializeObject<JsonClassModel>(jsonStr);
+
+                    if (objRoot != null)
+                    {
+                        var interventi = new InterventiModel();
+                        var TF = getChannelElem(objRoot, "TF").values.First().value;
+                        var TA = getChannelElem(objRoot, "TA").values.First().value;
+                        var O2 = getChannelElem(objRoot, "O₂").values.First().value;
+                        var CO = getChannelElem(objRoot, "CO").values.First().value;
+                        var CO2 = getChannelElem(objRoot, "CO₂").values.First().value;
+                        var RC = getChannelElem(objRoot, "Rend").values.First().value;
+
+                        interventi.INT_SENS_TEMP_FUMI = TF;
+                        interventi.INT_SENS_TEMP_ARIA = TA;
+                        interventi.INT_SENS_O2 = O2;
+                        interventi.INT_SENS_CO2 = CO2;
+                        interventi.INT_SENS_CO_CORRETTO = CO;
+                        interventi.INT_SENS_REND_COMB = RC;
+                        //interventi.INT_SENS_REND_MIN =TF;
+                        //interventi.INT_MOD_TERM =TF;
+                        BindingContext = interventi;
+                    }
+                }
+            }
         }
 
-        private void Parser(JsonClassModel objRoot, InterventiModel interventi)
+        private bool IsValidJson(string strInput)
         {
-
-            var TF = getChannelElem(objRoot, "TF").values.First().description;
-            var TA = getChannelElem(objRoot, "TA").values.First().description;
-            var O2 = getChannelElem(objRoot, "O₂").values.First().description;
-            var CO = getChannelElem(objRoot, "CO").values.First().description;
-            var CO2 = getChannelElem(objRoot, "CO₂").values.First().description;
-            var RC = getChannelElem(objRoot, "Rend").values.First().description;
-
-            interventi.INT_SENS_TEMP_FUMI = Convert.ToDouble(TF);
-            interventi.INT_SENS_TEMP_ARIA = Convert.ToDouble(TA);
-            interventi.INT_SENS_O2 = Convert.ToDouble(O2);
-            interventi.INT_SENS_CO2 = Convert.ToDouble(CO2);
-            interventi.INT_SENS_CO_CORRETTO = Convert.ToDouble(CO);
-            interventi.INT_SENS_REND_COMB = Convert.ToDouble(RC);
-            //interventi.INT_SENS_REND_MIN = Convert.ToDouble(TF);
-            //interventi.INT_MOD_TERM = Convert.ToDouble(TF);
+            strInput = strInput.Trim();
+            if ((strInput.StartsWith("{") && strInput.EndsWith("}")) || //For object
+                (strInput.StartsWith("[") && strInput.EndsWith("]"))) //For array
+            {
+                try
+                {
+                    var obj = JToken.Parse(strInput);
+                    return true;
+                }
+                catch (Exception) //some other exception
+                { }
+            }
+            return false;
         }
 
         async void Handle_Clicked(object sender, System.EventArgs e)

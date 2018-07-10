@@ -15,8 +15,6 @@ namespace CrossApp.Droid
             var appDevice = "testot330i";
             var application_id = "com.companyname.CrossApp";
             var parameter = "targetapplication=default";
-            // var url = $"{appDevice}+{application_id}://data?userinfo=targetapplication=default&json=base64_encoded_data";
-            // var url = $"{appDevice}://start?userinfo=targetapplication=default&bundleid={application_id}";
             var url = $"{appDevice}://start?userinfo={parameter}," +
                 $"language=it_IT,tutorial=false&bundleid={application_id}";
             Intent intent = new Intent();
