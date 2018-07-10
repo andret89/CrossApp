@@ -1,5 +1,7 @@
-﻿using CrossApp.Models;
+﻿using Android.Content;
+using CrossApp.Models;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Plugin.FilePicker;
 using Plugin.FilePicker.Abstractions;
 using Plugin.Permissions;
@@ -63,44 +65,45 @@ namespace CrossApp
         var task = FileManager.MyRead(path, fileName);
         */
 
-        private Channel getChannelElem(JsonClassModel root, string key)
+        private Channel getChannelElem(JsonTreeModel root, string key)
         {
             Channel ret = null;
             var channels = root.channels;
             foreach (Channel channel in channels)
             {
-                if (channel.type.description.Equals(key))
+                if (channel.type.xmlid.Equals(key))
                     ret = channel;
             }
             return ret;
         }
 
-        private JsonClassModel GetJson(string jsonStr)
+        private JsonTreeModel GetJson(string jsonStr)
         {
-            if (jsonStr != null )
-                return JsonConvert.DeserializeObject<JsonClassModel>(jsonStr);
+            var jsonStrTrim = jsonStr; //.Trim();
+            if (jsonStrTrim != null )
+                return JsonConvert.DeserializeObject<JsonTreeModel>(jsonStrTrim);
             else
                 return null;
         }
 
-        private void Parser(JsonClassModel objRoot, InterventiModel interventi)
+        private void Parser(JsonTreeModel objRoot, InterventiModel interventi)
         {
 
-            var TF = getChannelElem(objRoot, "TF").values.First().description;
-            var TA = getChannelElem(objRoot, "TA").values.First().description;
-            var O2 = getChannelElem(objRoot, "O₂").values.First().description;
-            var CO = getChannelElem(objRoot, "CO").values.First().description;
-            var CO2 = getChannelElem(objRoot, "CO₂").values.First().description;
-            var RC = getChannelElem(objRoot, "Rend").values.First().description;
+            var TF = getChannelElem(objRoot, "T_Flue").values.First().value;
+            var TA = getChannelElem(objRoot, "T_Air").values.First().value;
+            var O2 = getChannelElem(objRoot, "O2").values.First().value;
+            var CO = getChannelElem(objRoot, "CO_Dil").values.First().value;
+            var RC = getChannelElem(objRoot, "Efficiency").values.First().value;
+            var CO2 = objRoot.properties.First().values.First().value;
 
-            interventi.INT_SENS_TEMP_FUMI = Convert.ToDouble(TF);
-            interventi.INT_SENS_TEMP_ARIA = Convert.ToDouble(TA);
-            interventi.INT_SENS_O2 = Convert.ToDouble(O2);
-            interventi.INT_SENS_CO2 = Convert.ToDouble(CO2);
-            interventi.INT_SENS_CO_CORRETTO = Convert.ToDouble(CO);
-            interventi.INT_SENS_REND_COMB = Convert.ToDouble(RC);
-            //interventi.INT_SENS_REND_MIN = Convert.ToDouble(TF);
-            //interventi.INT_MOD_TERM = Convert.ToDouble(TF);
+            interventi.INT_SENS_TEMP_FUMI =TF;
+            interventi.INT_SENS_TEMP_ARIA = TA;
+            interventi.INT_SENS_O2 = O2;
+            interventi.INT_SENS_CO2 = CO2;
+            interventi.INT_SENS_CO_CORRETTO = CO;
+            interventi.INT_SENS_REND_COMB = RC;
+            //interventi.INT_SENS_REND_MIN = TF;
+            //interventi.INT_MOD_TERM = TF;
         }
 
         async void Handle_Clicked(object sender, System.EventArgs e)
@@ -117,11 +120,40 @@ namespace CrossApp
             }
             else
             {
-                DependencyService.Get<ISenderService>().GetFileChoice();
+                var jsonStr = DependencyService.Get<ISenderService>().GetTextFromClipboard();
+                if (IsValidJson(jsonStr))
+                {
+                    var objDes = GetJson(jsonStr);
+                    if (objDes != null)
+                    {
+                        var interventi = new InterventiModel();
+                        Parser(objDes, interventi);
+                        BindingContext = interventi;
+                    }
+                }
+                //    RequestPermisisionAsync(jsonStr);
 
                 //OpenFilePickerAsync();
             }
         }
+
+        private bool IsValidJson(string strInput)
+        {
+            strInput = strInput.Trim();
+            if ((strInput.StartsWith("{") && strInput.EndsWith("}")) || //For object
+                (strInput.StartsWith("[") && strInput.EndsWith("]"))) //For array
+            {
+                try
+                {
+                    var obj = JToken.Parse(strInput);
+                    return true;
+                }
+                catch (Exception) //some other exception
+                { }
+            }
+            return false;
+        }
+
 
         private async Task OpenFilePickerAsync()
         {

@@ -1,0 +1,176 @@
+﻿{
+  "additionalMeasurementInformation": [],
+  "channels": [
+    {
+      "type": {
+        "name": "O₂",
+        "description": "O₂",
+        "xmlid": "O2"
+      },
+      "unit": {
+        "name": "%",
+        "xmlid": "UNIT_PERCENT"
+      },
+      "values": [
+        {
+          "description": "4,2",
+          "timeStamp": "2018-07-10T09:32:13",
+          "value": 4.199999809265137
+        }
+      ]
+    },
+    {
+      "type": {
+        "name": "CO",
+        "description": "CO",
+        "xmlid": "CO_Dil"
+      },
+      "unit": {
+        "name": "ppm",
+        "xmlid": "UNIT_PPM"
+      },
+      "values": [
+        {
+          "description": "35",
+          "timeStamp": "2018-07-10T09:32:13",
+          "value": 35
+        }
+      ]
+    },
+    {
+      "type": {
+        "name": "FT",
+        "description": "TF",
+        "xmlid": "T_Flue"
+      },
+      "unit": {
+        "name": "°C",
+        "xmlid": "UNIT_DEG_C"
+      },
+      "values": [
+        {
+          "description": "127,3",
+          "timeStamp": "2018-07-10T09:32:13",
+          "value": 127.30000305175781
+        }
+      ]
+    },
+    {
+      "type": {
+        "name": "AT",
+        "description": "TA",
+        "xmlid": "T_Air"
+      },
+      "unit": {
+        "name": "°C",
+        "xmlid": "UNIT_DEG_C"
+      },
+      "values": [
+        {
+          "description": "21,5",
+          "timeStamp": "2018-07-10T09:32:13",
+          "value": 21.5
+        }
+      ]
+    },
+    {
+      "type": {
+        "name": "Draught",
+        "description": "Tirag.",
+        "xmlid": "P_Draft"
+      },
+      "unit": {
+        "name": "mbar",
+        "xmlid": "UNIT_MBAR"
+      },
+      "values": [
+        {
+          "description": "0,04",
+          "timeStamp": "2018-07-10T09:32:13",
+          "value": 0.03999999910593033
+        }
+      ]
+    },
+    {
+      "type": {
+        "name": "Pabs",
+        "description": "Pass",
+        "xmlid": "P_Abs"
+      },
+      "unit": {
+        "name": "mbar",
+        "xmlid": "UNIT_MBAR"
+      },
+      "values": [
+        {
+          "description": "1013,0",
+          "timeStamp": "2018-07-10T09:32:13",
+          "value": 1013
+        }
+      ]
+    },
+    {
+      "type": {
+        "name": "qAnet",
+        "description": "Qs",
+        "xmlid": "QAnet"
+      },
+      "unit": {
+        "name": "%",
+        "xmlid": "UNIT_PERCENT"
+      },
+      "values": [
+        {
+          "description": "6,6",
+          "timeStamp": "2018-07-10T09:32:13",
+          "value": 6.599999904632568
+        }
+      ]
+    },
+    {
+      "type": {
+        "name": "Effn",
+        "description": "η ",
+        "xmlid": "Efficiency"
+      },
+      "unit": {
+        "name": "%",
+        "xmlid": "UNIT_PERCENT"
+      },
+      "values": [
+        {
+          "description": "93,4",
+          "timeStamp": "2018-07-10T09:32:13",
+          "value": 93.4000015258789
+        }
+      ]
+    }
+  ],
+  "device": {
+    "name": "testo Demo Simulator 12345678",
+    "serial": "12345678"
+  },
+  "properties": [
+    {
+      "description": "Gasolio",
+      "name": "Fuel",
+      "values": [
+        {
+          "description": "3,0 %",
+          "name": "O2ref",
+          "value": 3
+        },
+        {
+          "description": "15,4 %",
+          "name": "CO2max",
+          "value": 15.399999618530273
+        }
+      ]
+    }
+  ],
+  "schemaVersion": "1.0.4",
+  "timeStamp": "2018-07-10T09:32:13",
+  "type": {
+    "name": "Simulation"
+  }
+}

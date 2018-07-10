@@ -34,7 +34,7 @@ namespace CrossApp.Droid
 
             global::Xamarin.Forms.Forms.Init(this, bundle);
 
-            var jsonStr = ImportJson();
+            var jsonStr = HandlerIntenetToJson();
             if (jsonStr != null)
                 LoadApplication(new App(jsonStr));
             else
@@ -42,31 +42,6 @@ namespace CrossApp.Droid
             //((App)Xamarin.Forms.Application.Current).DisplayJSON(json);
         }
 
-        public string ImportJson()
-        {
-            var clipboard = (ClipboardManager)Application.Context.GetSystemService(ClipboardService);
-            var json = clipboard.Text;
-            if (IsValidJson(json))
-                return json;
-            return null;
-        }
-
-        private static bool IsValidJson(string strInput)
-        {
-            strInput = strInput.Trim();
-            if ((strInput.StartsWith("{") && strInput.EndsWith("}")) || //For object
-                (strInput.StartsWith("[") && strInput.EndsWith("]"))) //For array
-            {
-                try
-                {
-                    var obj = JToken.Parse(strInput);
-                    return true;
-                }
-                catch (Exception) //some other exception
-                { }
-            }
-            return false;
-        }
         protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
         {
             base.OnActivityResult(requestCode, resultCode, data);
@@ -108,7 +83,7 @@ namespace CrossApp.Droid
 
         }
 
-        public string HandlerIntenetToJsonOld()
+        public string HandlerIntenetToJson()
         {
             Intent intent = Intent;
             string type = intent.Type;

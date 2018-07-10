@@ -49,5 +49,11 @@ namespace CrossApp.Droid
             var cur = (MainActivity)Forms.Context;
             cur.StartActivityForResult(Intent.CreateChooser(intent, "Select File JFT"), 1000);
         }
+
+        public string GetTextFromClipboard()
+        {
+            var clipboard = (ClipboardManager)Android.App.Application.Context.GetSystemService(Context.ClipboardService);
+            return clipboard.Text;
+        }
     }
 }

@@ -10,5 +10,6 @@ namespace CrossApp
         string SendRequest();
         string OpenFile(FileStream file);
         void GetFileChoice();
+        string GetTextFromClipboard();
     }
 }
