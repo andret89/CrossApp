@@ -3,11 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:CrossApp"
              x:Class="CrossApp.MainPage"
-             Title="Json Page">
-    <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Import"  Order="Primary" Clicked="ToolbarItem_Clicked"/>
-        <ToolbarItem Text="TestoApp"  Order="Primary" Clicked="ToolbarItem_Clicked"/>
-    </ContentPage.ToolbarItems>
+             Title="Controllo Fumi">
     <ContentPage.Content>
         <ScrollView>
             <StackLayout>
@@ -69,8 +65,56 @@
                     <!-- Riga 10 -->
                     <Label Text="Modulo Termico" Grid.Row="10" Grid.ColumnSpan="2" VerticalOptions="CenterAndExpand" LineBreakMode="TailTruncation"/>
                     <Entry Grid.Row="10" Grid.Column="2" VerticalOptions="CenterAndExpand" Text="{Binding INT_MOD_TERM, Mode=TwoWay}"/>
+                    <!-- picker device -->
+                    <Label Text="App per l'importazione" Grid.Row="11" Grid.ColumnSpan="2" VerticalOptions="CenterAndExpand" LineBreakMode="TailTruncation"/>
+                    <Picker x:Name="DevicePicker" Grid.Row="11" Grid.Column="2" VerticalOptions="CenterAndExpand"
+                            Title="Dispositivo" ItemsSource="AppList" ItemDisplayBinding="Value"/>
+
+                    <StackLayout x:Name="tool_icone" Grid.Row="12" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+                        <Label x:Name="btnImporta" 
+                                               FontFamily="{StaticResource SolidFont}" 
+                                            Text="&#xf56f;" FontSize="60"
+                                    HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand" >
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" NumberOfTapsRequired="1"/>
+                            </Label.GestureRecognizers>
+                        </Label>
+
+                        <Label x:Name="btnOpenApp"  
+                                               FontFamily="{StaticResource SolidFont}" 
+                                            Text="&#xf139;" FontSize="60"
+                                    HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" >
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" NumberOfTapsRequired="1"/>
+                            </Label.GestureRecognizers>
+                        </Label>
+
+                        <Label x:Name="btnSalva" 
+                                               FontFamily="{StaticResource SolidFont}" 
+                                            Text="&#xf019;" FontSize="60"
+                                    HorizontalOptions="EndAndExpand" VerticalOptions="CenterAndExpand" >
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" NumberOfTapsRequired="1"/>
+                            </Label.GestureRecognizers>
+                        </Label>
+
+                    </StackLayout>
                 </Grid>
             </StackLayout>
         </ScrollView>
+
+        <!--Button Text="Importa" Clicked="Button_Clicked" HorizontalOptions="StartAndExpand" />
+                        <Button x:Name="btnOpenApp" Text="OpenApp" Clicked="Button_Clicked" HorizontalOptions="CenterAndExpand" />
+                        <Button Text="Salva" Clicked="Button_Clicked"  HorizontalOptions="EndAndExpand" /-->
+                    <!--local:FontAwesomeLabel x:Name="btnImporta" Grid.Row="12" Grid.ColumnSpan="2" 
+                                            Text="{x:Static icon:Icon.FA_Import}" FontSize="Medium"
+                                    HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" >
+                        <local:FontAwesomeLabel.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" NumberOfTapsRequired="1"/>
+                        </local:FontAwesomeLabel.GestureRecognizers>
+                    </-->
+
+
+
     </ContentPage.Content>
 </ContentPage>

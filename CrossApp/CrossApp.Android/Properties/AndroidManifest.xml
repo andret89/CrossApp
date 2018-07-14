@@ -1,31 +1,39 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.companyname.CrossApp" android:versionCode="1" android:versionName="1.0" android:installLocation="auto">
-	<uses-sdk android:minSdkVersion="19" android:targetSdkVersion="27" />
-	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-	<uses-permission android:name="android.permission.BLUETOOTH" />
-	<uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
-	<uses-permission android:name="android.permission.BLUETOOTH_PRIVILEGED" />
-	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-	<application android:label="CrossApp.Android"></application>
-	<intent-filter>
-		<action android:name="android.intent.action.MAIN" />
-		<category android:name="android.intent.category.LAUNCHER" />
-	</intent-filter>
+  <uses-sdk android:minSdkVersion="21" android:targetSdkVersion="27" />
+  <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+  <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+  <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+  <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+  <application android:label="CrossApp.Android"></application>
   <intent-filter>
-    <data android:scheme="testot330+com.companyname.CrossApp"/>
-    <action android:name="android.intent.action.VIEW"/>
-    <category android:name="android.intent.category.DEFAULT"/>
-    <category android:name="android.intent.category.BROWSABLE"/>
-    </intent-filter>
-  <intent-filter>
-    <data android:scheme="file"/>
-    <data android:host="*"/>
-    <data android:mimeType="application/json"/>
-    <action android:name="android.intent.action.VIEW"/>
-    <action android:name="android.intent.action.SEND"/>
-    <category android:name="android.intent.category.BROWSABLE"/>
-    <category android:name="android.intent.category.DEFAULT"/>
+    <action android:name="android.intent.action.MAIN" />
+    <category android:name="android.intent.category.LAUNCHER" />
   </intent-filter>
+  <intent-filter>
+    <data android:scheme="testot330i+com.companyname.CrossApp" />
+    <action android:name="android.intent.action.VIEW" />
+    <category android:name="android.intent.category.DEFAULT" />
+    <category android:name="android.intent.category.BROWSABLE" />
+  </intent-filter>
+  <intent-filter>
+    <data android:scheme="file" />
+    <data android:host="*" />
+    <data android:mimeType="application/json" />
+    <action android:name="android.intent.action.VIEW" />
+    <action android:name="android.intent.action.SEND" />
+    <category android:name="android.intent.category.BROWSABLE" />
+    <category android:name="android.intent.category.DEFAULT" />
+  </intent-filter>
+  <intent-filter>
+    <action android:name="android.intent.action.SEND" />
+    <category android:name="android.intent.category.DEFAULT" />
+    <data android:mimeType="application/*" />
+  </intent-filter>
+  <provider android:name="android.support.v4.content.FileProvider"
+     android:authorities="${applicationId}.fileProvider"
+     android:exported="false" android:grantUriPermissions="true">
+    <meta-data android:name="android.support.FILE_PROVIDER_PATHS"
+               android:resource="@xml/file_paths" />
+  </provider>
 </manifest>

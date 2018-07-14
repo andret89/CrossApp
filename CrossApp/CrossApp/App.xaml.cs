@@ -15,6 +15,7 @@ namespace CrossApp
             InitializeComponent();
             _navigationRoot = new NavigationPage(new MainPage());
             MainPage = _navigationRoot;
+
         }
 
         protected override void OnStart ()

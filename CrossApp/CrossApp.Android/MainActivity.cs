@@ -11,6 +11,7 @@ using System;
 
 namespace CrossApp.Droid
 {
+    [IntentFilter(new[] { Intent.ActionSend }, Categories = new[] { Intent.CategoryDefault }, DataMimeType = @"application/pdf")]
     [IntentFilter(new[] { Intent.ActionSend }, Categories = new[] { Intent.CategoryDefault }, DataMimeType = @"application/json")]
 
     [Activity(Label = "CrossApp", Icon = "@mipmap/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
@@ -28,7 +29,12 @@ namespace CrossApp.Droid
             global::Xamarin.Forms.Forms.Init(this, bundle);
 
             LoadApplication(new App());
-            HandlerIntenetToJson();
+            HandlerIntentToJson();
+        }
+
+        protected override void OnNewIntent(Intent i)
+        {
+            HandlerIntentToJson();
         }
 
         protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
@@ -57,7 +63,7 @@ namespace CrossApp.Droid
 
         }
 
-        public void HandlerIntenetToJson()
+        public void HandlerIntentToJson()
         {
             Intent intent = Intent;
             string type = intent.Type;
@@ -67,7 +73,6 @@ namespace CrossApp.Droid
                 if (type.StartsWith("application/"))
                 {
                     var key = "android.intent.extra.STREAM";
-                    string jsonDecryptString = string.Empty;
                     var filePathUri = Intent.GetParcelableExtra(key) as Android.Net.Uri;
                     Stream stream = ContentResolver.OpenInputStream(filePathUri);
 
@@ -77,6 +82,13 @@ namespace CrossApp.Droid
                     }
                     ((App)Xamarin.Forms.Application.Current).SendJson(jsonString);
                 }
+            }
+            if (Intent.Action == Intent.ActionView)
+            {
+                var uri = Intent.Data;
+                // may be some test here with your custom uri
+                var var = uri.QueryParameterNames; //("var"); // "str" is set
+                //var varr = uri.QueryParameterNames("varr"); // "string" is set
             }
         }
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)

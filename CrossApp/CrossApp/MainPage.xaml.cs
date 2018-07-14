@@ -1,11 +1,10 @@
 ﻿using CrossApp.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Plugin.FilePicker;
-using Plugin.FilePicker.Abstractions;
 using Plugin.Permissions;
 using Plugin.Permissions.Abstractions;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Forms;
@@ -14,12 +13,48 @@ namespace CrossApp
 {
     public partial class MainPage : ContentPage
     {
+        Dictionary<string, string> DictDeviceApp = new Dictionary<string, string>
+        {
+            {"330i", "testot330i"},{"330","testot330"},{"samrtprobes","testosmartprobes"}
+        };
+
+
         public MainPage()
         {
             InitializeComponent();
+            InitPicker();
             RequestPermissionAsync();
+            btnOpenApp.IsEnabled = false;
+ 
         }
 
+        public void InitPicker()
+        {
+
+            foreach (string elm in DictDeviceApp.Keys)
+            {
+                DevicePicker.Items.Add(elm);
+            }
+            DevicePicker.SelectedIndexChanged += (sender, args) =>
+            {
+                if (DevicePicker.SelectedIndex != -1)
+                {
+                    var key = DevicePicker.Items[DevicePicker.SelectedIndex];
+                    if (DictDeviceApp.TryGetValue(key, out string val))
+                    {
+                        try
+                        {
+                            App.Current.Properties.Remove("TYPE_DEVICE");
+                        }
+                        catch { }
+                        App.Current.Properties.Add("TYPE_DEVICE", val);
+                        btnOpenApp.IsEnabled = true;
+                    }
+                }
+                else
+                    btnOpenApp.IsEnabled = false;
+            };
+        }
 
         private async Task<bool> RequestPermissionAsync()
         {
@@ -43,40 +78,59 @@ namespace CrossApp
             return ret;
         }
 
-        //private async Task<string> PCLStorageSampleAsync()
-        //{
-        //    //IFolder rootFolder =  IFolder
-        //    string path = @"/storage/emulated/0/Android/data/de.testo.ias2015app/files/reports/";
-        //    var fileName = "2018-07-06_22-04-23.tjf";
-        //    string s = await FileManager.MyRead(path, fileName);
-        //    return s;
-        //}
-
-
-        /*
-        string path = @"/storage/emulated/0/Android/data/de.testo.ias2015app/files/reports/";
-        var fileName = "2018-07-06_22-04-23.tjf";
-        var task = FileManager.MyRead(path, fileName);
-        */
-
-
         async void Handle_Clicked(object sender, System.EventArgs e)
         {
             await Navigation.PopModalAsync(true);
         }
 
-        private async Task ToolbarItem_ClickedAsync(object sender, EventArgs e)
+
+        private async void TapGestureRecognizer_Tapped(object sender, EventArgs e)
         {
-            ToolbarItem toolBarItem = (ToolbarItem)sender;
-            if (toolBarItem.Text.Equals("TestoApp"))
+
+            /*
+           string path = @"/storage/emulated/0/Download/prova.pdf";
+           DependencyService.Get<IAppHandler>().OpenPDF(path);
+           */
+
+            Label btn = (Label)sender;
+            
+            if (btn.Text.Equals(FontAwesomeLabel.Icon.FAOpenApp))
             {
-                DependencyService.Get<ISenderService>().SendRequest();
+                var appDevice = "";
+                var dataRequest = false;
+                if (App.Current.Properties.TryGetValue("TYPE_DEVICE", out object valProp))
+                {
+                    appDevice = (string)valProp;
+
+                    var application_id = "com.companyname.CrossApp";
+                    var parameter = "targetapplication=default";
+                    string url;
+                    if (dataRequest)
+                        url = $"{appDevice}+{application_id}://data?userinfo=parameter&json=base64_encoded_data";
+                    else
+                        url = $"{appDevice}://start?userinfo={parameter}," +
+                            $"language=it_IT,tutorial=false&bundleid={application_id}";
+
+                    Xamarin.Forms.Device.BeginInvokeOnMainThread(() =>
+                    {
+                        Xamarin.Forms.Device.OpenUri(new Uri(url));
+                    });
+                }
             }
-            else
+            if (btn.Text.Equals(FontAwesomeLabel.Icon.FASave))
             {
-                var jsonStr = DependencyService.Get<ISenderService>().GetTextFromClipboard();
+                var jsonStr = DependencyService.Get<IAppHandler>().GetTextFromClipboard();
                 if (!await SetJsonToViewAsync(jsonStr))
-                    DependencyService.Get<ISenderService>().GetFileChoice();
+                    DependencyService.Get<IAppHandler>().GetFileChoice();
+            }
+            if (btn.Text.Equals(FontAwesomeLabel.Icon.FAImporta))
+            {
+                string path = @"/storage/emulated/0/Download/prova.pdf";
+                DependencyService.Get<IAppHandler>().OpenPDF(path);
+                //Xamarin.Forms.Device.BeginInvokeOnMainThread(() =>
+                //{
+                //    Xamarin.Forms.Device.OpenUri(new Uri(path));
+                //});
             }
         }
 
@@ -139,36 +193,6 @@ namespace CrossApp
         private double DoubleRound(double value)
         {
             return Math.Round(value, 3);
-        }
-
-        private async Task OpenFilePickerAsync()
-        {
-            try
-            {
-
-                FileData filedata = new FileData();
-                var crossFileData = CrossFilePicker.Current;
-                filedata = await crossFileData.PickFile();
-                byte[] data = filedata.DataArray;
-                string name = filedata.FileName;
-                foreach (byte b in filedata.DataArray)
-                {
-                    string attachment = b.ToString();
-                }
-
-                // the dataarray of the file will be found in filedata.DataArray 
-                // file name will be found in filedata.FileName;
-                //etc etc.
-                //var json = DependencyService.Get<ISenderService>().OpenFile(file);
-                //RequestPermisisionAsync(json);
-
-
-            }
-            catch (Exception ex)
-            {
-                //ExceptionHandler.ShowException(ex.Message);
-                Console.WriteLine(ex.Message);
-            }
         }
     }
 
