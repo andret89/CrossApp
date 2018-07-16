@@ -4066,6 +4066,9 @@ namespace CrossApp.Droid
 			// aapt resource value: 0x7f0b0035
 			public const int character_counter_pattern = 2131427381;
 			
+			// aapt resource value: 0x7f0b003e
+			public const int file_provider_authority = 2131427390;
+			
 			// aapt resource value: 0x7f0b0000
 			public const int mr_button_content_description = 2131427328;
 			

@@ -11,7 +11,7 @@ using System;
 
 namespace CrossApp.Droid
 {
-    [IntentFilter(new[] { Intent.ActionSend }, Categories = new[] { Intent.CategoryDefault }, DataMimeType = @"application/pdf")]
+    //[IntentFilter(new[] { Intent.ActionSend }, Categories = new[] { Intent.CategoryDefault }, DataMimeType = @"application/pdf")]
     [IntentFilter(new[] { Intent.ActionSend }, Categories = new[] { Intent.CategoryDefault }, DataMimeType = @"application/json")]
 
     [Activity(Label = "CrossApp", Icon = "@mipmap/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
@@ -48,7 +48,6 @@ namespace CrossApp.Droid
                 try
                 {
                     Stream stream = ContentResolver.OpenInputStream(data.Data);
-
                     using (var streamReader = new StreamReader(stream))
                     {
                         jsonString = streamReader.ReadToEnd();

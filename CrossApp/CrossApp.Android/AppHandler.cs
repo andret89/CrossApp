@@ -1,17 +1,11 @@
-﻿
-using Android.App;
-using Android.Content;
-using Android.Net;
-using Android.Support.Compat;
+﻿using Android.Content;
 using Android.Support.V4.Content;
-using Android.Widget;
 using Plugin.CurrentActivity;
 using System;
 using System.IO;
-using System.Threading.Tasks;
 using Xamarin.Forms;
 
-[assembly: Xamarin.Forms.Dependency(typeof(CrossApp.Droid.AppHandler))]
+[assembly: Dependency(typeof(CrossApp.Droid.AppHandler))]
 
 namespace CrossApp.Droid
 {
@@ -19,34 +13,17 @@ namespace CrossApp.Droid
     {
         Context context = Android.App.Application.Context;
 
-        public string SendRequest()
+        public string ReadFile(string filePath)
         {
-            var appDevice = "testot330i";
-            var application_id = context.PackageName;
-            var parameter = "targetapplication=default";
-            var url = $"{appDevice}+{application_id}://data?userinfo=parameter&json=base64_encoded_data";
-            // var url = $"{appDevice}://start?userinfo=targetapplication=default&bundleid={application_id}";
-            //var url = $"{appDevice}://start?userinfo={parameter}," +
-            //    $"language=it_IT,tutorial=false&bundleid={application_id}";
-            Intent intent = new Intent();
-            intent.SetAction(Intent.ActionSend);
-            var urlApp = Android.Net.Uri.Parse(url);
-            intent.SetData(urlApp);
-            context.StartActivity(intent);
-            return urlApp.ToString();
-        }
-
-        public string OpenFile(string filePath)
-        {
-            string jsonString = null;
+            string retStr = null;
             var file = new Java.IO.File(filePath);
             var uri = Android.Net.Uri.FromFile(file);
             Stream stream = context.ContentResolver.OpenInputStream(uri);
             using (var streamReader = new StreamReader(stream))
             {
-                jsonString = streamReader.ReadToEnd();
+                retStr = streamReader.ReadToEnd();
             }
-            return jsonString;
+            return retStr;
         }
 
         public void GetFileChoice()
@@ -65,91 +42,75 @@ namespace CrossApp.Droid
             return clipboard.Text;
         }
 
-        public Task<bool> LaunchApp(string uri)
-        {
-            bool result = false;
-
-            try
-            {
-                var aUri = Android.Net.Uri.Parse(uri.ToString());
-                var intent = new Intent(Intent.ActionView, aUri);
-                context.StartActivity(intent);
-                result = true;
-            }
-            catch (ActivityNotFoundException)
-            {
-                result = false;
-            }
-
-            return Task.FromResult(result);
-        }
-
         public void OpenPDF(string filePath)
         {
-            //var file = new Java.IO.File(filePath);
-            //Android.Net.Uri uri;
-            //if (Android.OS.Build.VERSION.SdkInt > Android.OS.BuildVersionCodes.M)
-            //{
-            //    try
-            //    {
-            //        uri = FileProvider.GetUriForFile(context,
-            //            "com.companyname.CrossApp" + ".fileprovider", file);
-            //    }catch(Exception ex)
-            //    {
-            //        Console.WriteLine(ex.Message);
-            //    }
-            //}
-            //else
-            //{
-            //    uri = Android.Net.Uri.FromFile(file);
-            //}
+            var file = new Java.IO.File(Android.OS.Environment.ExternalStorageDirectory.Path + filePath);
+            Android.Net.Uri uri = null;
+            if (Android.OS.Build.VERSION.SdkInt > Android.OS.BuildVersionCodes.M)
+            {
+                try
+                {
+                    uri = FileProvider.GetUriForFile(context,
+                        "com.companyname.CrossApp" + ".fileprovider", file);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+            }
+            else
+                uri = Android.Net.Uri.FromFile(file);
 
-            var intent = new Intent(Intent.ActionView);
-            //var ld = context.GetDir("Download","Prova.pdf");
-            var contentUri = Android.Net.Uri.Parse("content://" + filePath);
-            intent.PutExtra(Intent.ExtraStream, contentUri);
-            intent.SetDataAndType(contentUri, "application/pdf");
-            intent.SetFlags(ActivityFlags.ClearWhenTaskReset | ActivityFlags.NewTask);
-            intent.SetFlags(ActivityFlags.GrantReadUriPermission);
+            if(uri!=null)
+            {
+                var intent = new Intent(Intent.ActionView);
+                intent.PutExtra(Intent.ExtraStream, uri);
+                intent.SetDataAndType(uri, "application/pdf");
+                intent.SetFlags(ActivityFlags.ClearWhenTaskReset | ActivityFlags.NewTask);
+                intent.SetFlags(ActivityFlags.GrantReadUriPermission);
 
-            var intentChooser = Intent.CreateChooser(intent, "Open PDF");
-            context.StartActivity(intentChooser);
+                var intentChooser = Intent.CreateChooser(intent, "Open PDF");
+                context.StartActivity(intentChooser);
+            }
         }
 
         public void DownloadFile(string fileName_, Byte[] document_)
         {
             //PermissionsDroidBusiness.CheckReadAndWriteExternalStorage();
-            /*
+
             var externalPath = global::Android.OS.Environment.ExternalStorageDirectory.Path + "/" +
             global::Android.OS.Environment.DirectoryDownloads + "/" + fileName_;
             File.WriteAllBytes(externalPath, document_);
-            */
-            var externalPath = fileName_;
             Java.IO.File file = new Java.IO.File(externalPath);
             file.SetReadable(true);
-            /*
-            var contentUri = Android.Support.V4.Content.FileProvider.GetUriForFile(
-                context, "com.companyname.CrossApp", file);
-                */
-            var contentUri = Android.Net.Uri.Parse("content://" + externalPath);
 
+            var contentUri = FileProvider.GetUriForFile(
+                context, "com.companyname.CrossApp.fileprovider", file);
             var intent = new Intent(Intent.ActionView);
             intent.PutExtra(Intent.ExtraStream, contentUri);
+            var type = contentUri.GetType();
             intent.SetDataAndType(contentUri, "application/pdf");
             intent.SetFlags(ActivityFlags.ClearWhenTaskReset | ActivityFlags.NewTask);
             intent.SetFlags(ActivityFlags.GrantReadUriPermission);
 
-            var intentChooser = Intent.CreateChooser(intent, "Open PDF");
-
+            var intentChooser = Intent.CreateChooser(intent, "Open File");
             context.StartActivity(intentChooser);
-            /*
-            Android.Net.Uri pdfPath = FileProvider.GetUriForFile(context,"com.companyname.CrossApp", file);
-            Intent intent = new Intent(Intent.ActionView);
-            intent.SetDataAndType(pdfPath, "application/pdf");
-            intent.SetFlags(ActivityFlags.ClearWhenTaskReset | ActivityFlags.NewTask);
-            intent.SetFlags(ActivityFlags.GrantReadUriPermission);
-            context.StartActivity(intent);
-            */
+        }
+
+        public bool IsAppInstalled(string packageName)
+        {
+            bool installed = false;
+            try
+            {
+                context.PackageManager.GetPackageInfo(packageName,Android.Content.PM.PackageInfoFlags.Activities);
+                installed = true;
+            }
+            catch (Android.Content.PM.PackageManager.NameNotFoundException)
+            {
+                installed = false;
+            }
+
+            return installed;
         }
     }
 }

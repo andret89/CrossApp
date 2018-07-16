@@ -85,7 +85,7 @@
                                             Text="&#xf139;" FontSize="60"
                                     HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" >
                             <Label.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="EventOpenApp" NumberOfTapsRequired="1"/>
+                                <TapGestureRecognizer Tapped="EventImportJson" NumberOfTapsRequired="1"/>
                             </Label.GestureRecognizers>
                         </Label>
 

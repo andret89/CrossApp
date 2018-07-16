@@ -1,8 +1,8 @@
-﻿using CrossApp.Models;
+﻿using Android.Content.PM;
+using CrossApp.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Plugin.Permissions;
-using Plugin.Permissions.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,9 +15,11 @@ namespace CrossApp
     {
         Dictionary<string, string> DictDeviceApp = new Dictionary<string, string>
         {
-            {"330i", "testot330i"},{"330","testot330"},{"samrtprobes","testosmartprobes"}
+            {"testot330i","de.testo.ias2015app"},{"testot330","testo.android.reader"},{"testosmartprobes","de.testo.smartprobesapp"}
         };
 
+        List<string> ListAction = new List<string>(
+            new string[] { "testot330i", "testot330", "testosmartprobes", "File", "Clipboard" });
 
         public MainPage()
         {
@@ -58,10 +60,10 @@ namespace CrossApp
 
         private async Task<bool> RequestPermissionAsync()
         {
-            var status = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Storage);
-            if (status != PermissionStatus.Granted)
-                status = await Utils.CheckPermissions(Permission.Storage);
-            if (status == PermissionStatus.Granted)
+            var status = await CrossPermissions.Current.CheckPermissionStatusAsync(Plugin.Permissions.Abstractions.Permission.Storage);
+            if (status != Plugin.Permissions.Abstractions.PermissionStatus.Granted)
+                status = await Utils.CheckPermissions(Plugin.Permissions.Abstractions.Permission.Storage);
+            if (status == Plugin.Permissions.Abstractions.PermissionStatus.Granted)
                 return true;
             return false;
         }
@@ -85,44 +87,58 @@ namespace CrossApp
 
         private async void EventImportJson(object sender, EventArgs e)
         {
-            var jsonStr = DependencyService.Get<IAppHandler>().GetTextFromClipboard();
-            if (!await SetJsonToViewAsync(jsonStr))
-                DependencyService.Get<IAppHandler>().GetFileChoice();
+            string action = await DisplayActionSheet("Importa da", "Cancel", "",
+                ListAction.ElementAt(0), ListAction.ElementAt(1), ListAction.ElementAt(2), ListAction.ElementAt(3), ListAction.ElementAt(4));
+            switch (action)
+            {
+                case "File":
+                    DependencyService.Get<IAppHandler>().GetFileChoice();
+                    break;
+                case "Clipboard":
+                    var jsonStr = DependencyService.Get<IAppHandler>().GetTextFromClipboard();
+                    await SetJsonToViewAsync(jsonStr);
+                    break;
+                default:
+                    EventOpenApp(action);
+                    break;
 
+            }
         }
 
         private void EventSaveData(object sender, EventArgs e)
         {
-            string path = @"/storage/emulated/0/Download/Prova.pdf";
-            DependencyService.Get<IAppHandler>().OpenPDF(path);
-            //Xamarin.Forms.Device.BeginInvokeOnMainThread(() =>
-            //{
-            //    Xamarin.Forms.Device.OpenUri(new Uri(path));
-            //});
+            //string path = @"/storage/emulated/0/Testo/Prova.pdf";
+            string fileName = @"/Testo/prova.pdf";
+            DependencyService.Get<IAppHandler>().OpenPDF(fileName);
         }
 
-        private void EventOpenApp(object sender, EventArgs e)
+        private void EventOpenApp(string typeApp)
         {
+            if (!DependencyService.Get<IAppHandler>().IsAppInstalled(DictDeviceApp.GetValueOrDefault(typeApp)))
+            {
+                DisplayAlert("Installare l'app", typeApp, "ok");
+                return;
+            }
+
+
             var appDevice = "";
             var dataRequest = false;
-            if (App.Current.Properties.TryGetValue("TYPE_DEVICE", out object valProp))
+            appDevice = typeApp;
+
+            var application_id = "com.companyname.CrossApp";
+            var parameter = "targetapplication=default";
+            string url;
+            if (dataRequest)
+                url = $"{appDevice}+{application_id}" +
+                    $"://data?userinfo=parameter&json=base64_encoded_data";
+            else
+                url = $"{appDevice}://start?userinfo={parameter}," +
+                    $"language=it_IT,tutorial=false&bundleid={application_id}";
+
+            Xamarin.Forms.Device.BeginInvokeOnMainThread(() =>
             {
-                appDevice = (string)valProp;
-
-                var application_id = "com.companyname.CrossApp";
-                var parameter = "targetapplication=default";
-                string url;
-                if (dataRequest)
-                    url = $"{appDevice}+{application_id}://data?userinfo=parameter&json=base64_encoded_data";
-                else
-                    url = $"{appDevice}://start?userinfo={parameter}," +
-                        $"language=it_IT,tutorial=false&bundleid={application_id}";
-
-                Xamarin.Forms.Device.BeginInvokeOnMainThread(() =>
-                {
-                    Xamarin.Forms.Device.OpenUri(new Uri(url));
-                });
-            }
+                Xamarin.Forms.Device.OpenUri(new Uri(url));
+            });
         }
 
         public async Task<bool> SetJsonToViewAsync(string jsonStr)
@@ -137,25 +153,27 @@ namespace CrossApp
                     if (objRoot != null)
                     {
                         var interventi = new InterventiModel();
-                        var TF = GetChannelElem(objRoot, "T_Flue").values.First().value;
-                        var TA = GetChannelElem(objRoot, "T_Air").values.First().value;
-                        var O2 = GetChannelElem(objRoot, "O2").values.First().value;
-                        var CO = GetChannelElem(objRoot, "CO_Dil").values.First().value;
-                        double RC = 0;
+                        var TF = GetChannelElem(objRoot, "T_Flue").values.First().description;
+                        var TA = GetChannelElem(objRoot, "T_Air").values.First().description;
+                        var O2 = GetChannelElem(objRoot, "O2").values.First().description;
+                        var CO = GetChannelElem(objRoot, "CO_Dil").values.First().description;
+                        string RC = "";
                         if (GetChannelElem(objRoot, "Efficiency") != null)
-                            RC = GetChannelElem(objRoot, "Efficiency").values.First().value;
-                        double CO2 = 0;
+                            RC = GetChannelElem(objRoot, "Efficiency").values.First().description;
+                        if (GetChannelElem(objRoot, "Effg") != null)
+                            RC = GetChannelElem(objRoot, "Effg").values.First().description;
+                        string CO2 = "";
                         if (objRoot.properties.First().name.Equals("Fuel"))
-                            CO2 = objRoot.properties.First().values.First().value;
+                            CO2 = objRoot.properties.First().values.First().description.Replace("%", "");
 
-                        interventi.INT_SENS_TEMP_FUMI = DoubleRound(TF);
-                        interventi.INT_SENS_TEMP_ARIA = DoubleRound(TA);
-                        interventi.INT_SENS_O2 = DoubleRound(O2);
-                        interventi.INT_SENS_CO2 = DoubleRound(CO2);
-                        interventi.INT_SENS_CO_CORRETTO = DoubleRound(CO);
-                        interventi.INT_SENS_REND_COMB = DoubleRound(RC);
-                        //interventi.INT_SENS_REND_MIN =DoubleRound(TF);
-                        //interventi.INT_MOD_TERM =DoubleRound(TF);
+                        interventi.INT_SENS_TEMP_FUMI = Double.Parse(TF);
+                        interventi.INT_SENS_TEMP_ARIA = Double.Parse(TA);
+                        interventi.INT_SENS_O2 = Double.Parse(O2);
+                        interventi.INT_SENS_CO2 = Double.Parse(CO2);
+                        interventi.INT_SENS_CO_CORRETTO = Double.Parse(CO);
+                        interventi.INT_SENS_REND_COMB = Double.Parse(RC);
+                        //interventi.INT_SENS_REND_MIN =Double.Parse(TF);
+                        //interventi.INT_MOD_TERM =Double.Parse(TF);
                         BindingContext = interventi;
                         return true;
                     }
