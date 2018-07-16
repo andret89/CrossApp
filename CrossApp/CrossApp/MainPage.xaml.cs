@@ -25,7 +25,7 @@ namespace CrossApp
             InitPicker();
             RequestPermissionAsync();
             btnOpenApp.IsEnabled = false;
- 
+
         }
 
         public void InitPicker()
@@ -83,54 +83,45 @@ namespace CrossApp
             await Navigation.PopModalAsync(true);
         }
 
-
-        private async void TapGestureRecognizer_Tapped(object sender, EventArgs e)
+        private async void EventImportJson(object sender, EventArgs e)
         {
+            var jsonStr = DependencyService.Get<IAppHandler>().GetTextFromClipboard();
+            if (!await SetJsonToViewAsync(jsonStr))
+                DependencyService.Get<IAppHandler>().GetFileChoice();
 
-            /*
-           string path = @"/storage/emulated/0/Download/prova.pdf";
-           DependencyService.Get<IAppHandler>().OpenPDF(path);
-           */
+        }
 
-            Label btn = (Label)sender;
-            
-            if (btn.Text.Equals(FontAwesomeLabel.Icon.FAOpenApp))
+        private void EventSaveData(object sender, EventArgs e)
+        {
+            string path = @"/storage/emulated/0/Download/Prova.pdf";
+            DependencyService.Get<IAppHandler>().OpenPDF(path);
+            //Xamarin.Forms.Device.BeginInvokeOnMainThread(() =>
+            //{
+            //    Xamarin.Forms.Device.OpenUri(new Uri(path));
+            //});
+        }
+
+        private void EventOpenApp(object sender, EventArgs e)
+        {
+            var appDevice = "";
+            var dataRequest = false;
+            if (App.Current.Properties.TryGetValue("TYPE_DEVICE", out object valProp))
             {
-                var appDevice = "";
-                var dataRequest = false;
-                if (App.Current.Properties.TryGetValue("TYPE_DEVICE", out object valProp))
+                appDevice = (string)valProp;
+
+                var application_id = "com.companyname.CrossApp";
+                var parameter = "targetapplication=default";
+                string url;
+                if (dataRequest)
+                    url = $"{appDevice}+{application_id}://data?userinfo=parameter&json=base64_encoded_data";
+                else
+                    url = $"{appDevice}://start?userinfo={parameter}," +
+                        $"language=it_IT,tutorial=false&bundleid={application_id}";
+
+                Xamarin.Forms.Device.BeginInvokeOnMainThread(() =>
                 {
-                    appDevice = (string)valProp;
-
-                    var application_id = "com.companyname.CrossApp";
-                    var parameter = "targetapplication=default";
-                    string url;
-                    if (dataRequest)
-                        url = $"{appDevice}+{application_id}://data?userinfo=parameter&json=base64_encoded_data";
-                    else
-                        url = $"{appDevice}://start?userinfo={parameter}," +
-                            $"language=it_IT,tutorial=false&bundleid={application_id}";
-
-                    Xamarin.Forms.Device.BeginInvokeOnMainThread(() =>
-                    {
-                        Xamarin.Forms.Device.OpenUri(new Uri(url));
-                    });
-                }
-            }
-            if (btn.Text.Equals(FontAwesomeLabel.Icon.FASave))
-            {
-                var jsonStr = DependencyService.Get<IAppHandler>().GetTextFromClipboard();
-                if (!await SetJsonToViewAsync(jsonStr))
-                    DependencyService.Get<IAppHandler>().GetFileChoice();
-            }
-            if (btn.Text.Equals(FontAwesomeLabel.Icon.FAImporta))
-            {
-                string path = @"/storage/emulated/0/Download/prova.pdf";
-                DependencyService.Get<IAppHandler>().OpenPDF(path);
-                //Xamarin.Forms.Device.BeginInvokeOnMainThread(() =>
-                //{
-                //    Xamarin.Forms.Device.OpenUri(new Uri(path));
-                //});
+                    Xamarin.Forms.Device.OpenUri(new Uri(url));
+                });
             }
         }
 

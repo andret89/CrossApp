@@ -105,6 +105,7 @@ namespace CrossApp.Droid
             //}
 
             var intent = new Intent(Intent.ActionView);
+            //var ld = context.GetDir("Download","Prova.pdf");
             var contentUri = Android.Net.Uri.Parse("content://" + filePath);
             intent.PutExtra(Intent.ExtraStream, contentUri);
             intent.SetDataAndType(contentUri, "application/pdf");

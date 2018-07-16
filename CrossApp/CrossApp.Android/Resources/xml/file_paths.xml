@@ -4,7 +4,7 @@
   <files-path name="files" path="."/>
   <internal-path name="internal_files" path="."/-->
   <internal-path name="internal_files" path="."/>
-  <internal-files-path name="my_downloads" path="Download" />
+  <internal-files-path name="my_int_downloads" path="Download" />
 
   <external-path path="external_files" name="." />
   <external-files-path name="my_images" path="Pictures" />
