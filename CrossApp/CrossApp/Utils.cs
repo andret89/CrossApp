@@ -1,4 +1,8 @@
-﻿using Plugin.Permissions;
+﻿using Android.Support.V4.Content;
+using Java.IO;
+using PCLStorage;
+using Plugin.FilePicker.Abstractions;
+using Plugin.Permissions;
 using Plugin.Permissions.Abstractions;
 using System;
 using System.Collections.Generic;
@@ -73,6 +77,16 @@ namespace CrossApp
             }
 
             return permissionStatus;
+        }
+
+        public static async Task<string> ReadFileOnPlatformAsync(string path, string name)
+        {
+            IFolder rootFolder = FileSystem.Current.LocalStorage;
+            IFolder folder = await rootFolder.CreateFolderAsync(path,
+                CreationCollisionOption.OpenIfExists);
+            IFile file = await folder.CreateFileAsync(name,
+                CreationCollisionOption.ReplaceExisting);
+            return await file.ReadAllTextAsync();
         }
     }
 }

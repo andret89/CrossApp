@@ -43,21 +43,23 @@ namespace CrossApp.Droid
 
             if (resultCode == Result.Ok)
             {
-                string jsonString = null;
-                System.Diagnostics.Debug.Write(data.Data);
+                string dataString = null;
                 try
                 {
-                    Stream stream = ContentResolver.OpenInputStream(data.Data);
+                    var uFile = data.Data;
+                    Stream stream = ContentResolver.OpenInputStream(uFile);
                     using (var streamReader = new StreamReader(stream))
                     {
-                        jsonString = streamReader.ReadToEnd();
+                        dataString = streamReader.ReadToEnd();
                     }
+                    var type = ContentResolver.GetType(uFile);
+                    ((App)Xamarin.Forms.Application.Current).SendFileData(dataString, type);
                 }
                 catch (Exception readEx)
                 {
                     System.Diagnostics.Debug.Write(readEx);
                 }
-                ((App)Xamarin.Forms.Application.Current).SendJson(jsonString);
+                
             }
 
         }
@@ -79,7 +81,7 @@ namespace CrossApp.Droid
                     {
                         jsonString = streamReader.ReadToEnd();
                     }
-                    ((App)Xamarin.Forms.Application.Current).SendJson(jsonString);
+                    ((App)Xamarin.Forms.Application.Current).SendFileData(jsonString,"json");
                 }
             }
             if (Intent.Action == Intent.ActionView)

@@ -1,0 +1,28 @@
+<?xml version='1.0' standalone='yes' ?>
+<SingleResult n0:schemaLocation="urn:ZIV-Messgeraeteschnittstelle-Schema_V2_2017-02-13.xsd" TransmissionId="0" xmlns="urn:ZIV-schema" xmlns:n0="http://www.w3.org/2001/XMLSchema-instance">
+  <Version>2.00</Version><!--Testo Combustion App Version 2.08-->
+  <Instrument>
+    <Manufacturer>Testo SE &amp; Co. KGaA</Manufacturer>
+    <Type>testo Demo Simulator</Type>
+    <SerialNumber>12345678</SerialNumber>
+  </Instrument>
+  <Fireplace FireplaceNumber="0">
+    <Fuel FuelId="FUEL_OTHER">
+      <Name>Gasolio</Name>
+      <CO2Max>15.4</CO2Max>
+      <O2Ref>3.0</O2Ref>
+    </Fuel>
+    <OilGasMeasurement>
+      <Date>2018-07-11</Date>
+      <Time>11:21:32</Time>
+      <O2 Unit="UNIT_VOL_PERCENT" Error="ERR_NONE">4.2</O2>
+      <CO_Dil Unit="UNIT_PPM" Error="ERR_NONE">35</CO_Dil>
+      <T_Flue Unit="UNIT_DEG_C" Error="ERR_NONE">127.3</T_Flue>
+      <T_Air Unit="UNIT_DEG_C" Error="ERR_NONE">21.5</T_Air>
+      <Q_Flue Unit="UNIT_PERCENT" Error="ERR_NONE">6.6</Q_Flue>
+      <Efficiency Unit="UNIT_PERCENT" Error="ERR_NONE">93.4</Efficiency>
+      <P_Diff Unit="UNIT_HPA" Error="ERR_NONE">0.04</P_Diff>
+    </OilGasMeasurement>
+  </Fireplace>
+  <TransmissionState>STATE_OK</TransmissionState>
+</SingleResult>

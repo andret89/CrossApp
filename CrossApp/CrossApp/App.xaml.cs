@@ -33,9 +33,12 @@ namespace CrossApp
 			// Handle when your app resumes
 		}
 
-        internal async void SendJson(string jsonString)
+        internal async void SendFileData(string dataString, string type)
         {
-            await ((MainPage)_navigationRoot.CurrentPage).SetJsonToViewAsync(jsonString);
+            if(type == "text/xml")
+                await ((MainPage)_navigationRoot.CurrentPage).SetXmlToViewAsync(dataString);
+            else
+                await ((MainPage)_navigationRoot.CurrentPage).SetJsonToViewAsync(dataString);
         }
     }
 }

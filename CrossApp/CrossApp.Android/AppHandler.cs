@@ -13,23 +13,10 @@ namespace CrossApp.Droid
     {
         Context context = Android.App.Application.Context;
 
-        public string ReadFile(string filePath)
-        {
-            string retStr = null;
-            var file = new Java.IO.File(filePath);
-            var uri = Android.Net.Uri.FromFile(file);
-            Stream stream = context.ContentResolver.OpenInputStream(uri);
-            using (var streamReader = new StreamReader(stream))
-            {
-                retStr = streamReader.ReadToEnd();
-            }
-            return retStr;
-        }
-
         public void GetFileChoice()
         {
             var intent = new Intent();
-            intent.SetType("application/*");
+            intent.SetType("*/*");
             intent.SetAction(Intent.ActionGetContent);
             intent.AddCategory(Intent.CategoryOpenable);
             var activity = CrossCurrentActivity.Current.Activity;
@@ -42,24 +29,10 @@ namespace CrossApp.Droid
             return clipboard.Text;
         }
 
-        public void OpenPDF(string filePath)
+        public void OpenPDF(string fileName)
         {
-            var file = new Java.IO.File(Android.OS.Environment.ExternalStorageDirectory.Path + filePath);
-            Android.Net.Uri uri = null;
-            if (Android.OS.Build.VERSION.SdkInt > Android.OS.BuildVersionCodes.M)
-            {
-                try
-                {
-                    uri = FileProvider.GetUriForFile(context,
-                        "com.companyname.CrossApp" + ".fileprovider", file);
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
-                }
-            }
-            else
-                uri = Android.Net.Uri.FromFile(file);
+            var filePath = Android.OS.Environment.ExternalStorageDirectory.Path + fileName;
+            var uri = GetUriForAllVersion(filePath);
 
             if(uri!=null)
             {
@@ -108,9 +81,46 @@ namespace CrossApp.Droid
             catch (Android.Content.PM.PackageManager.NameNotFoundException)
             {
                 installed = false;
+                InstallApplication(packageName);
             }
 
             return installed;
         }
+
+        public Android.Net.Uri GetUriForAllVersion(string filePath)
+        {
+            Android.Net.Uri uri = null;
+            var file = new Java.IO.File(filePath);
+            if (Android.OS.Build.VERSION.SdkInt > Android.OS.BuildVersionCodes.M)
+            {
+                try
+                {
+                    uri = FileProvider.GetUriForFile(context, "com.companyname.CrossApp.fileprovider", file);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+            }
+            else
+                uri = Android.Net.Uri.FromFile(file);
+            return uri;
+        }
+
+        public void InstallApplication(string appPackageName)
+        {
+            var play = @"https://play.google.com/store/apps/details?id=";
+            var market = @"market://details?id=";
+            var aUri = GetUriForAllVersion(market + appPackageName);
+
+            if (aUri != null)
+            {
+                Intent marketIntent = new Intent(Intent.ActionView, aUri);
+                marketIntent.AddFlags(ActivityFlags.NoHistory | ActivityFlags.ClearWhenTaskReset |
+                    ActivityFlags.MultipleTask | ActivityFlags.NewTask);
+                context.StartActivity(marketIntent);
+            }
+        }
     }
+
 }
