@@ -24,39 +24,38 @@ namespace CrossApp
         public MainPage()
         {
             InitializeComponent();
-            InitPicker();
+            //InitPicker();
             RequestPermissionAsync();
-            btnOpenApp.IsEnabled = false;
 
         }
 
-        public void InitPicker()
-        {
-
-            foreach (string elm in DictDeviceApp.Keys)
-            {
-                DevicePicker.Items.Add(elm);
-            }
-            DevicePicker.SelectedIndexChanged += (sender, args) =>
-            {
-                if (DevicePicker.SelectedIndex != -1)
-                {
-                    var key = DevicePicker.Items[DevicePicker.SelectedIndex];
-                    if (DictDeviceApp.TryGetValue(key, out string val))
-                    {
-                        try
-                        {
-                            App.Current.Properties.Remove("TYPE_DEVICE");
-                        }
-                        catch { }
-                        App.Current.Properties.Add("TYPE_DEVICE", val);
-                        btnOpenApp.IsEnabled = true;
-                    }
-                }
-                else
-                    btnOpenApp.IsEnabled = false;
-            };
-        }
+        //public void InitPicker()
+        //{
+        //    btnOpenApp.IsEnabled = false;
+        //    foreach (string elm in DictDeviceApp.Keys)
+        //    {
+        //        DevicePicker.Items.Add(elm);
+        //    }
+        //    DevicePicker.SelectedIndexChanged += (sender, args) =>
+        //    {
+        //        if (DevicePicker.SelectedIndex != -1)
+        //        {
+        //            var key = DevicePicker.Items[DevicePicker.SelectedIndex];
+        //            if (DictDeviceApp.TryGetValue(key, out string val))
+        //            {
+        //                try
+        //                {
+        //                    App.Current.Properties.Remove("TYPE_DEVICE");
+        //                }
+        //                catch { }
+        //                App.Current.Properties.Add("TYPE_DEVICE", val);
+        //                btnOpenApp.IsEnabled = true;
+        //            }
+        //        }
+        //        else
+        //            btnOpenApp.IsEnabled = false;
+        //    };
+        //}
 
         private async Task<bool> RequestPermissionAsync()
         {
@@ -88,7 +87,8 @@ namespace CrossApp
         private async void EventImportJson(object sender, EventArgs e)
         {
             string action = await DisplayActionSheet("Importa da", "Cancel", "",
-                ListAction.ElementAt(0), ListAction.ElementAt(1), ListAction.ElementAt(2), ListAction.ElementAt(3), ListAction.ElementAt(4));
+                ListAction.ElementAt(0), ListAction.ElementAt(1), ListAction.ElementAt(2), 
+                ListAction.ElementAt(3), ListAction.ElementAt(4));
             switch (action)
             {
                 case "File":

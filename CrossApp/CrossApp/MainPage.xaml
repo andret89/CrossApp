@@ -66,11 +66,12 @@
                     <Label Text="Modulo Termico" Grid.Row="10" Grid.ColumnSpan="2" VerticalOptions="CenterAndExpand" LineBreakMode="TailTruncation"/>
                     <Entry Grid.Row="10" Grid.Column="2" VerticalOptions="CenterAndExpand" Text="{Binding INT_MOD_TERM, Mode=TwoWay}"/>
                     <!-- picker device -->
-                    <Label Text="App per l'importazione" Grid.Row="11" Grid.ColumnSpan="2" VerticalOptions="CenterAndExpand" LineBreakMode="TailTruncation"/>
+                    <!--Label Text="App per l'importazione" Grid.Row="11" Grid.ColumnSpan="2" VerticalOptions="CenterAndExpand" LineBreakMode="TailTruncation"/>
                     <Picker x:Name="DevicePicker" Grid.Row="11" Grid.Column="2" VerticalOptions="CenterAndExpand"
-                            Title="Dispositivo" ItemsSource="AppList" ItemDisplayBinding="Value"/>
+                            Title="Dispositivo" ItemsSource="AppList" ItemDisplayBinding="Value"/-->
 
-                    <StackLayout x:Name="tool_icone" Grid.Row="12" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+                    <StackLayout x:Name="tool_icone" Grid.Row="12" Grid.ColumnSpan="3" Orientation="Horizontal" 
+                                 HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
                         <Label x:Name="btnImporta" 
                                                FontFamily="{StaticResource SolidFont}" 
                                             Text="&#xf56f;" FontSize="60"
@@ -80,14 +81,14 @@
                             </Label.GestureRecognizers>
                         </Label>
 
-                        <Label x:Name="btnOpenApp"  
+                        <!--Label x:Name="btnOpenApp"  
                                                FontFamily="{StaticResource SolidFont}" 
                                             Text="&#xf139;" FontSize="60"
                                     HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" >
                             <Label.GestureRecognizers>
                                 <TapGestureRecognizer Tapped="EventImportJson" NumberOfTapsRequired="1"/>
                             </Label.GestureRecognizers>
-                        </Label>
+                        </-->
 
                         <Label x:Name="btnSalva" 
                                                FontFamily="{StaticResource SolidFont}" 
