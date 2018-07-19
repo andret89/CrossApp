@@ -34,7 +34,7 @@ namespace CrossApp.Droid
             var filePath = Android.OS.Environment.ExternalStorageDirectory.Path + fileName;
             var uri = GetUriForAllVersion(filePath);
 
-            if(uri!=null)
+            if (uri != null)
             {
                 var intent = new Intent(Intent.ActionView);
                 intent.PutExtra(Intent.ExtraStream, uri);
@@ -75,15 +75,13 @@ namespace CrossApp.Droid
             bool installed = false;
             try
             {
-                context.PackageManager.GetPackageInfo(packageName,Android.Content.PM.PackageInfoFlags.Activities);
+                context.PackageManager.GetPackageInfo(packageName, Android.Content.PM.PackageInfoFlags.Activities);
                 installed = true;
             }
             catch (Android.Content.PM.PackageManager.NameNotFoundException)
             {
                 installed = false;
-                InstallApplication(packageName);
             }
-
             return installed;
         }
 
@@ -109,17 +107,25 @@ namespace CrossApp.Droid
 
         public void InstallApplication(string appPackageName)
         {
-            var play = @"https://play.google.com/store/apps/details?id=";
-            var market = @"market://details?id=";
-            var aUri = GetUriForAllVersion(market + appPackageName);
+            Intent marketIntent = new Intent(Intent.ActionView);
+            marketIntent.SetData(Android.Net.Uri.Parse($"market://details?id={appPackageName}"));
+            marketIntent.AddFlags(ActivityFlags.NoHistory | ActivityFlags.ClearWhenTaskReset |
+                ActivityFlags.MultipleTask | ActivityFlags.NewTask);
+            context.StartActivity(marketIntent);
+        }
 
-            if (aUri != null)
+        public void OpenURL(string url)
+        {
+            var contentUri = GetUriForAllVersion(url);
+            if (contentUri != null)
             {
-                Intent marketIntent = new Intent(Intent.ActionView, aUri);
-                marketIntent.AddFlags(ActivityFlags.NoHistory | ActivityFlags.ClearWhenTaskReset |
-                    ActivityFlags.MultipleTask | ActivityFlags.NewTask);
-                context.StartActivity(marketIntent);
+                var intent = new Intent(Intent.ActionView);
+                intent.PutExtra(Intent.ExtraStream, contentUri);
+                intent.SetFlags(ActivityFlags.ClearWhenTaskReset | ActivityFlags.NewTask);
+                intent.SetFlags(ActivityFlags.GrantReadUriPermission);
+                context.StartActivity(intent);
             }
+
         }
     }
 

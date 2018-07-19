@@ -32,11 +32,6 @@ namespace CrossApp.Droid
             HandlerIntentToJson();
         }
 
-        protected override void OnNewIntent(Intent i)
-        {
-            HandlerIntentToJson();
-        }
-
         protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
         {
             base.OnActivityResult(requestCode, resultCode, data);
@@ -76,20 +71,14 @@ namespace CrossApp.Droid
                     var key = "android.intent.extra.STREAM";
                     var filePathUri = Intent.GetParcelableExtra(key) as Android.Net.Uri;
                     Stream stream = ContentResolver.OpenInputStream(filePathUri);
+                    System.Diagnostics.Debug.Write(filePathUri);
 
                     using (var streamReader = new StreamReader(stream))
                     {
                         jsonString = streamReader.ReadToEnd();
                     }
-                    ((App)Xamarin.Forms.Application.Current).SendFileData(jsonString,"json");
+                    ((App)Xamarin.Forms.Application.Current).SendFileData(jsonString, type);
                 }
-            }
-            if (Intent.Action == Intent.ActionView)
-            {
-                var uri = Intent.Data;
-                // may be some test here with your custom uri
-                var var = uri.QueryParameterNames; //("var"); // "str" is set
-                //var varr = uri.QueryParameterNames("varr"); // "string" is set
             }
         }
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)

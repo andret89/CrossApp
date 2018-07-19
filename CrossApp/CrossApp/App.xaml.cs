@@ -35,10 +35,11 @@ namespace CrossApp
 
         internal async void SendFileData(string dataString, string type)
         {
-            if(type == "text/xml")
+            if(type.Equals("text/xml"))
                 await ((MainPage)_navigationRoot.CurrentPage).SetXmlToViewAsync(dataString);
             else
-                await ((MainPage)_navigationRoot.CurrentPage).SetJsonToViewAsync(dataString);
+                 if (type.Equals("application/json"))
+                    await ((MainPage)_navigationRoot.CurrentPage).SetJsonToViewAsync(dataString);
         }
     }
 }

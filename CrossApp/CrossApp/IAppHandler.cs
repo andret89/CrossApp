@@ -9,5 +9,8 @@ namespace CrossApp
         void OpenPDF(string file);
         void DownloadFile(string fileName_, Byte[] document_);
         bool IsAppInstalled(string appName);
+        void InstallApplication(string appPackageName);
+        void OpenURL(string url);
+
     }
 }
