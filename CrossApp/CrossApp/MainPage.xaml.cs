@@ -3,11 +3,14 @@ using Android.Content.PM;
 using CrossApp.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Plugin.BLE;
+using Plugin.BLE.Abstractions.Contracts;
 using Plugin.FilePicker;
 using Plugin.FilePicker.Abstractions;
 using Plugin.Permissions;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -28,11 +31,23 @@ namespace CrossApp
         List<string> ListAction = new List<string>(
             new string[] { "testot330i", "testot330", "File", "Clipboard" });
 
+        private IBluetoothLE ble;
+        private IAdapter adapter;
+        private ObservableCollection<IDevice> deviceList;
+        private IDevice device;
+
         public MainPage()
         {
             InitializeComponent();
+            InitBluetooth();
             RequestPermissionAsync();
+        }
 
+        private void InitBluetooth()
+        {
+            ble = CrossBluetoothLE.Current;
+            adapter = CrossBluetoothLE.Current.Adapter;
+            deviceList = new ObservableCollection<IDevice>();
         }
 
         private async Task<bool> RequestPermissionAsync()
@@ -68,7 +83,7 @@ namespace CrossApp
                             await SetXmlToViewAsync(contents);
                         else
                         {
-                            if(IsValidJSON(contents))
+                            if (IsValidJSON(contents))
                                 await SetJsonToViewAsync(contents);
                         }
                     }
@@ -89,17 +104,28 @@ namespace CrossApp
             }
         }
 
-        private void EventSaveData(object sender, EventArgs e)
+        private async Task EventSaveDataAsync(object sender, EventArgs e)
         {
-            string path = @"/storage/emulated/0/Testo/Prova.pdf";
-            string fileName = @"/Testo/prova.pdf";
-            DependencyService.Get<IAppHandler>().OpenPDF(fileName);
+            //string path = @"/storage/emulated/0/Testo/Prova.pdf";
+            //string fileName = @"/Testo/prova.pdf";
+            //DependencyService.Get<IAppHandler>().OpenPDF(fileName);
             //var application_id = "com.companyname.CrossApp";
             //var parameter = "targetapplication=default";
             //var appDevice = "testot330i";
             //var url = $"{appDevice}+{application_id}" +
             //    $"://data?userinfo=parameter&json=base64_encoded_data";
             //DependencyService.Get<IAppHandler>().OpenURL(url);
+            if (ble.State == BluetoothState.Off)
+                
+            {
+                deviceList.Clear();
+                adapter.DeviceDiscovered += (s, a) =>
+                {
+                    deviceList.Add(a.Device);
+                };
+            }
+            if(!ble.Adapter.IsScanning)
+                await adapter.StartScanningForDevicesAsync();
 
         }
 
