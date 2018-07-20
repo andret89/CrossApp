@@ -74,9 +74,6 @@ namespace CrossApp
                     }
                     else
                         await DisplayAlert("Errore", "File non valido", "ok");
-
-
-                    //DependencyService.Get<IAppHandler>().GetFileChoice();
                     break;
                 case "Clipboard":
                     var jsonStr = DependencyService.Get<IAppHandler>().GetTextFromClipboard();
