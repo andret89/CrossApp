@@ -1,5 +1,7 @@
-﻿using Android.Content;
+﻿using Android.Bluetooth;
+using Android.Content;
 using Android.Support.V4.Content;
+using Android.Widget;
 using Plugin.CurrentActivity;
 using System;
 using System.IO;
@@ -12,6 +14,7 @@ namespace CrossApp.Droid
     class AppHandler : IAppHandler
     {
         Context context = Android.App.Application.Context;
+        BluetoothAdapter blue = BluetoothAdapter.DefaultAdapter;
 
         public void GetFileChoice()
         {
@@ -126,6 +129,17 @@ namespace CrossApp.Droid
                 context.StartActivity(intent);
             }
 
+        }
+
+        public void EnableBluetooth()
+        {
+            if (!blue.Enable())
+            {
+                Intent o = new Intent(BluetoothAdapter.ActionRequestEnable);
+                var activity = CrossCurrentActivity.Current.Activity;
+                activity.StartActivityForResult(o, 0);
+                Toast.MakeText(context, "Enabled", ToastLength.Short).Show();
+            }
         }
     }
 

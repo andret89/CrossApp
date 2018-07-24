@@ -11,6 +11,7 @@ namespace CrossApp
         bool IsAppInstalled(string appName);
         void InstallApplication(string appPackageName);
         void OpenURL(string url);
+        void EnableBluetooth();
 
     }
 }

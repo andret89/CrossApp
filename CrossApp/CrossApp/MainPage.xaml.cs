@@ -31,10 +31,7 @@ namespace CrossApp
         List<string> ListAction = new List<string>(
             new string[] { "testot330i", "testot330", "File", "Clipboard" });
 
-        private IBluetoothLE ble;
-        private IAdapter adapter;
-        private ObservableCollection<IDevice> deviceList;
-        private IDevice device;
+        private CustomBLE customBLE;
 
         public MainPage()
         {
@@ -45,9 +42,7 @@ namespace CrossApp
 
         private void InitBluetooth()
         {
-            ble = CrossBluetoothLE.Current;
-            adapter = CrossBluetoothLE.Current.Adapter;
-            deviceList = new ObservableCollection<IDevice>();
+            customBLE = new CustomBLE();
         }
 
         private async Task<bool> RequestPermissionAsync()
@@ -115,17 +110,6 @@ namespace CrossApp
             //var url = $"{appDevice}+{application_id}" +
             //    $"://data?userinfo=parameter&json=base64_encoded_data";
             //DependencyService.Get<IAppHandler>().OpenURL(url);
-            if (ble.State == BluetoothState.Off)
-                
-            {
-                deviceList.Clear();
-                adapter.DeviceDiscovered += (s, a) =>
-                {
-                    deviceList.Add(a.Device);
-                };
-            }
-            if(!ble.Adapter.IsScanning)
-                await adapter.StartScanningForDevicesAsync();
 
         }
 

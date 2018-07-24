@@ -13,7 +13,7 @@ namespace CrossApp
         public App()
         {
             InitializeComponent();
-            _navigationRoot = new NavigationPage(new MainPage());
+            _navigationRoot = new NavigationPage(new BluetoothPage());
             MainPage = _navigationRoot;
 
         }

@@ -74,6 +74,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppHandler.cs" />
+    <Compile Include="BluetoothManagerDroid.cs" />
     <Compile Include="FontAwesomeLabelRenderer.cs" />
     <Compile Include="IOUtil.cs" />
     <Compile Include="MainActivity.cs" />

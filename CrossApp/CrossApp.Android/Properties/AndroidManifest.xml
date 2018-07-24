@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.companyname.CrossApp" android:versionCode="1" android:versionName="1.0" android:installLocation="auto">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.companyname.CrossApp" 
+          android:versionCode="1" android:versionName="1.0" android:installLocation="auto">
 	<uses-sdk android:minSdkVersion="21" android:targetSdkVersion="27" />
 	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -10,7 +11,7 @@
 	<uses-permission android:name="android.permission.BLUETOOTH" />
 	<uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
 	<uses-permission android:name="android.permission.BLUETOOTH_PRIVILEGED" />
-  <uses-feature android:name="android.hardware.bluetooth_le" android:require="true" />
+  <uses-feature android:name="android.hardware.bluetooth_le" android:required="true"/>
 
 	<application android:label="CrossApp.Android">
 		<provider android:name="android.support.v4.content.FileProvider" android:authorities="com.companyname.CrossApp.fileprovider" 

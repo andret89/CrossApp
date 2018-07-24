@@ -16,14 +16,37 @@
     <Compile Include="$(MSBuildThisFileDirectory)App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)BluetoothPage.xaml.cs">
+      <DependentUpon>BluetoothPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)CustomBLE.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DeviceViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FileManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FontAwesomeLabel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IAppHandler.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IBluetoothManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Models\InterventiModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\JsonTreeModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TestBT.xaml.cs">
+      <DependentUpon>TestBT.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Utils.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)TestBT.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)BluetoothPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
   </ItemGroup>
 </Project>
