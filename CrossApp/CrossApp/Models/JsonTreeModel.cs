@@ -22,7 +22,7 @@ namespace CrossApp.Models
     {
         public string description { get; set; }
         public DateTime timeStamp { get; set; }
-        public double value { get; set; }
+        public double ?value { get; set; }
     }
 
     public class Channel
@@ -42,7 +42,7 @@ namespace CrossApp.Models
     {
         public string description { get; set; }
         public string name { get; set; }
-        public double value { get; set; }
+        public double ?value { get; set; }
     }
 
     public class Property

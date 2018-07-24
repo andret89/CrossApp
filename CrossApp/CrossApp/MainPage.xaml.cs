@@ -196,16 +196,26 @@ namespace CrossApp
             {
                 if (channel.type.xmlid.Equals(key,StringComparison.InvariantCultureIgnoreCase |
                     StringComparison.CurrentCultureIgnoreCase))
+                {
                     ret = channel.values.First().description;
+                    if(ret.Equals("-"))
+                        ret = null;
+                    break;
+                }
             }
             if (ret == null)
             {
                 var props = root.properties;
                 foreach (Value2 value in props.First().values)
                 {
-                    if (value.name.Equals(key, StringComparison.InvariantCultureIgnoreCase | 
+                    if (value.name.Equals(key, StringComparison.InvariantCultureIgnoreCase |
                         StringComparison.CurrentCultureIgnoreCase))
+                    {
                         ret = value.description;
+                        if (ret.Equals("-"))
+                            ret = null;
+                        break;
+                    }
                 }
             }
             return ret;
