@@ -8,6 +8,7 @@ using Android.Content;
 using Plugin.CurrentActivity;
 using Plugin.Permissions;
 using System;
+using Android.Bluetooth;
 
 namespace CrossApp.Droid
 {
@@ -17,6 +18,14 @@ namespace CrossApp.Droid
     [Activity(Label = "CrossApp", Icon = "@mipmap/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
+        const string Tag = "MainActivity";
+
+        public static BluetoothSocket BthSocket = null;
+
+        const int RequestResolveError = 1000;
+
+        BluetoothAdapter mBluetoothAdapter;
+
         protected override void OnCreate(Bundle bundle)
         {
 
@@ -54,7 +63,7 @@ namespace CrossApp.Droid
                 {
                     System.Diagnostics.Debug.Write(readEx);
                 }
-                
+
             }
 
         }
@@ -88,3 +97,89 @@ namespace CrossApp.Droid
         }
     }
 }
+        // Create a BroadcastReceiver for ACTION_FOUND
+//        private BroadcastReceiver mBroadcastReceiver1 = new BroadcastReceiver()
+//        {
+//            public void onReceive(Context context, Intent intent)
+//            {
+//                String action = Intent.Action;
+//                // When discovery finds a device
+//                if (action.Equals(mBluetoothAdapter.ACTION_STATE_CHANGED))
+//                {
+//                    int state = Intent.GetIntExtra(BluetoothAdapter.ExtraState, mBluetoothAdapter.err);
+
+//                    switch (state)
+//                    {
+//                        case BluetoothAdapter.STATE_OFF:
+//                            Log.d(TAG, "onReceive: STATE OFF");
+//                            break;
+//                        case BluetoothAdapter.STATE_TURNING_OFF:
+//                            Log.d(TAG, "mBroadcastReceiver1: STATE TURNING OFF");
+//                            break;
+//                        case BluetoothAdapter.STATE_ON:
+//                            Log.d(TAG, "mBroadcastReceiver1: STATE ON");
+//                            break;
+//                        case BluetoothAdapter.STATE_TURNING_ON:
+//                            Log.d(TAG, "mBroadcastReceiver1: STATE TURNING ON");
+//                            break;
+//                    }
+//                }
+//            };
+//        }
+
+
+//        protected override void onDestroy()
+//        {
+//            Log.d(TAG, "onDestroy: called.");
+//            super.onDestroy();
+//            unregisterReceiver(mBroadcastReceiver1);
+//        }
+
+//        @Override
+//    protected void onCreate(Bundle savedInstanceState)
+//        {
+//            super.onCreate(savedInstanceState);
+//            setContentView(R.layout.activity_main);
+//            Button btnONOFF = (Button)findViewById(R.id.btnONOFF);
+
+//            mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+
+
+//            btnONOFF.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view)
+//            {
+//                Log.d(TAG, "onClick: enabling/disabling bluetooth.");
+//                enableDisableBT();
+//            }
+//        });
+
+//    }
+
+//    public void enableDisableBT()
+//    {
+//        if (mBluetoothAdapter == null)
+//        {
+//            Log.d(TAG, "enableDisableBT: Does not have BT capabilities.");
+//        }
+//        if (!mBluetoothAdapter.isEnabled())
+//        {
+//            Log.d(TAG, "enableDisableBT: enabling BT.");
+//            Intent enableBTIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+//            startActivity(enableBTIntent);
+
+//            IntentFilter BTIntent = new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED);
+//            registerReceiver(mBroadcastReceiver1, BTIntent);
+//        }
+//        if (mBluetoothAdapter.isEnabled())
+//        {
+//            Log.d(TAG, "enableDisableBT: disabling BT.");
+//            mBluetoothAdapter.disable();
+
+//            IntentFilter BTIntent = new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED);
+//            registerReceiver(mBroadcastReceiver1, BTIntent);
+//        }
+
+//    }
+
+//}

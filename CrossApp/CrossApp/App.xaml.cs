@@ -25,13 +25,15 @@ namespace CrossApp
 
 		protected override void OnSleep ()
 		{
-			// Handle when your app sleeps
-		}
+            // Handle when your app sleeps
+            MessagingCenter.Send<App>(this, "Sleep");
+        }
 
 		protected override void OnResume ()
 		{
-			// Handle when your app resumes
-		}
+            // Handle when your app resumes
+            MessagingCenter.Send<App>(this, "Resume");
+        }
 
         internal async void SendFileData(string dataString, string type)
         {

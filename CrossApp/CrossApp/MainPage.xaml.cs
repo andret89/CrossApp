@@ -1,21 +1,14 @@
-﻿using Android.Content;
-using Android.Content.PM;
-using CrossApp.Models;
+﻿using CrossApp.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Plugin.BLE;
-using Plugin.BLE.Abstractions.Contracts;
 using Plugin.FilePicker;
 using Plugin.FilePicker.Abstractions;
 using Plugin.Permissions;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Xml;
-using System.Xml.Serialization;
 using Xamarin.Forms;
 
 namespace CrossApp
@@ -31,7 +24,7 @@ namespace CrossApp
         List<string> ListAction = new List<string>(
             new string[] { "testot330i", "testot330", "File", "Clipboard" });
 
-        private CustomBLE customBLE;
+        private object customBLE;
 
         public MainPage()
         {
@@ -42,7 +35,7 @@ namespace CrossApp
 
         private void InitBluetooth()
         {
-            customBLE = new CustomBLE();
+            //customBLE = new CustomBLE();
         }
 
         private async Task<bool> RequestPermissionAsync()
@@ -55,7 +48,7 @@ namespace CrossApp
             return false;
         }
 
-        async void Handle_Clicked(object sender, System.EventArgs e)
+        private async void Handle_Clicked(object sender, System.EventArgs e)
         {
             await Navigation.PopModalAsync(true);
         }
