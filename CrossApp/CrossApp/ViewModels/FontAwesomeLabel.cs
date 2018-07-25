@@ -1,6 +1,6 @@
 ﻿using Xamarin.Forms;
 
-namespace CrossApp
+namespace CrossApp.ViewModels
 {
 
     public class FontAwesomeLabel : Label

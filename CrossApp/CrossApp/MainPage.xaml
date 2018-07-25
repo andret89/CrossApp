@@ -3,8 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:CrossApp"
              xmlns:userControls="clr-namespace:CrossApp.ViewModels"
+             xmlns:models="clr-namespace:CrossApp.Models"
              x:Class="CrossApp.MainPage"
              Title="Controllo Fumi">
+    <ContentPage.BindingContext>
+        <models:InterventiModel></models:InterventiModel>
+    </ContentPage.BindingContext>
+    
     <ContentPage.Content>
         <ScrollView>
             <StackLayout>
@@ -73,27 +78,27 @@
 
                     <StackLayout x:Name="tool_icone" Grid.Row="12" Grid.ColumnSpan="3" Orientation="Horizontal" 
                                  HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
-                        <local:FontAwesomeLabel 
-                            Text="{x:Static local:Icon.FA_Import}"
+                        <userControls:FontAwesomeLabel 
+                            Text="{x:Static userControls:Icon.FA_Import}"
                             x:Name="btnImporta" 
                             FontFamily="{StaticResource SolidFont}" 
                             FontSize="60"
                             HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand" >
-                            <local:FontAwesomeLabel.GestureRecognizers>
+                            <userControls:FontAwesomeLabel.GestureRecognizers>
                                 <TapGestureRecognizer Tapped="EventImportJson" NumberOfTapsRequired="1"/>
-                            </local:FontAwesomeLabel.GestureRecognizers>
-                        </local:FontAwesomeLabel>
+                            </userControls:FontAwesomeLabel.GestureRecognizers>
+                        </userControls:FontAwesomeLabel>
 
-                        <local:FontAwesomeLabel 
-                            Text="{x:Static local:Icon.FA_Save}" 
+                        <userControls:FontAwesomeLabel 
+                            Text="{x:Static userControls:Icon.FA_Save}" 
                             x:Name="btnSalva" 
                                     FontFamily="{StaticResource SolidFont}" 
                                     FontSize="60"
                                     HorizontalOptions="EndAndExpand" VerticalOptions="CenterAndExpand" >
-                            <local:FontAwesomeLabel.GestureRecognizers>
+                            <userControls:FontAwesomeLabel.GestureRecognizers>
                                 <TapGestureRecognizer Tapped="EventSaveData" NumberOfTapsRequired="1"/>
-                            </local:FontAwesomeLabel.GestureRecognizers>
-                        </local:FontAwesomeLabel>
+                            </userControls:FontAwesomeLabel.GestureRecognizers>
+                        </userControls:FontAwesomeLabel>
 
                     </StackLayout>
                 </Grid>

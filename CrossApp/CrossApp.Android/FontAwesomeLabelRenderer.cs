@@ -1,7 +1,7 @@
 ﻿using Android.Content;
 using Android.Graphics;
 using CrossApp.Droid;
-using CrossApp;
+using CrossApp.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 

@@ -76,6 +76,8 @@ namespace CrossApp
                     var jsonStr = DependencyService.Get<IAppHandler>().GetTextFromClipboard();
                     await SetJsonToViewAsync(jsonStr);
                     break;
+                case "Cancel":
+                    break;
                 default:
                     EventOpenAppAsync(action);
                     break;
@@ -158,7 +160,7 @@ namespace CrossApp
                         if ((ret = GetXmlValue("CO2Max", objRoot)) != null)
                             interventi.INT_SENS_CO2 = Convert.ToDouble(ret.Replace(".", ",").Replace("%",""));
 
-                        BindingContext = interventi;
+                        //BindingContext = interventi;
                         return true;
                     }
                 }
