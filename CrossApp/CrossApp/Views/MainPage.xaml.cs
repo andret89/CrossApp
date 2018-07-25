@@ -1,6 +1,5 @@
-﻿using Android.Content;
-using Android.Content.PM;
-using CrossApp.Models;
+﻿using CrossApp.Models;
+using CrossApp.Services;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Plugin.FilePicker;
@@ -8,11 +7,9 @@ using Plugin.FilePicker.Abstractions;
 using Plugin.Permissions;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Xml;
-using System.Xml.Serialization;
 using Xamarin.Forms;
 
 namespace CrossApp
@@ -198,8 +195,6 @@ namespace CrossApp
                     StringComparison.CurrentCultureIgnoreCase))
                 {
                     ret = channel.values.First().description;
-                    if(ret.Equals("-"))
-                        ret = null;
                     break;
                 }
             }
@@ -212,12 +207,13 @@ namespace CrossApp
                         StringComparison.CurrentCultureIgnoreCase))
                     {
                         ret = value.description;
-                        if (ret.Equals("-"))
-                            ret = null;
                         break;
                     }
                 }
             }
+            if (ret.Equals("-"))
+                ret = null;
+
             return ret;
         }
 

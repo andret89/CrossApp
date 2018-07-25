@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CrossApp
+namespace CrossApp.Services
 {
     public interface IAppHandler
     {

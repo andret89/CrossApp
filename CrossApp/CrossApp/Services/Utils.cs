@@ -4,7 +4,7 @@ using Plugin.Permissions.Abstractions;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
-namespace CrossApp
+namespace CrossApp.Services
 {
     public static class Utils
     {

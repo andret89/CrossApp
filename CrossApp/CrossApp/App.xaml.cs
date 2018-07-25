@@ -1,13 +1,10 @@
-using CrossApp.Models;
-using Newtonsoft.Json;
-using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-[assembly: XamlCompilation (XamlCompilationOptions.Compile)]
+[assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace CrossApp
 {
-	public partial class App : Application
+    public partial class App : Application
 	{
         private NavigationPage _navigationRoot;
         public App()

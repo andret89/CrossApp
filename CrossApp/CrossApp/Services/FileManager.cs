@@ -1,11 +1,9 @@
 ﻿using PCLStorage;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace CrossApp
+namespace CrossApp.Services
 {
     public static class FileManager
     {

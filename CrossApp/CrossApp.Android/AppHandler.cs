@@ -1,5 +1,6 @@
 ﻿using Android.Content;
 using Android.Support.V4.Content;
+using CrossApp.Services;
 using Plugin.CurrentActivity;
 using System;
 using System.IO;
