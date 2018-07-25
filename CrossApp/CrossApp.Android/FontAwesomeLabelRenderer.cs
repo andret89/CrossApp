@@ -12,6 +12,7 @@ using Android.Views;
 using Android.Widget;
 using CrossApp;
 using CrossApp.Droid;
+using CrossApp.UserControls;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 

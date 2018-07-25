@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:CrossApp"
+             xmlns:userControls="clr-namespace:CrossApp.UserControls"
              x:Class="CrossApp.MainPage"
              Title="Controllo Fumi">
     <ContentPage.Content>
@@ -72,14 +73,24 @@
 
                     <StackLayout x:Name="tool_icone" Grid.Row="12" Grid.ColumnSpan="3" Orientation="Horizontal" 
                                  HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
-                        <Label x:Name="btnImporta" 
+                        <!--<Label x:Name="btnImporta" 
                                                FontFamily="{StaticResource SolidFont}" 
                                             Text="&#xf56f;" FontSize="60"
                                     HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand" >
                             <Label.GestureRecognizers>
                                 <TapGestureRecognizer Tapped="EventImportJson" NumberOfTapsRequired="1"/>
                             </Label.GestureRecognizers>
-                        </Label>
+                        </Label>-->
+                        <userControls:FontAwesomeLabel 
+                            Text="{x:Static userControls:Icon.FA_Import}"
+                            x:Name="btnImporta" 
+                            FontFamily="{StaticResource SolidFont}" 
+                            FontSize="60"
+                            HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand" >
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="EventImportJson" NumberOfTapsRequired="1"/>
+                            </Label.GestureRecognizers>
+                        </userControls:FontAwesomeLabel>
 
                         <!--Label x:Name="btnOpenApp"  
                                                FontFamily="{StaticResource SolidFont}" 
@@ -90,14 +101,16 @@
                             </Label.GestureRecognizers>
                         </-->
 
-                        <Label x:Name="btnSalva" 
-                                               FontFamily="{StaticResource SolidFont}" 
-                                            Text="&#xf019;" FontSize="60"
+                        <userControls:FontAwesomeLabel 
+                            Text="{x:Static userControls:Icon.FA_Save}" 
+                            x:Name="btnSalva" 
+                                    FontFamily="{StaticResource SolidFont}" 
+                                    FontSize="60"
                                     HorizontalOptions="EndAndExpand" VerticalOptions="CenterAndExpand" >
-                            <Label.GestureRecognizers>
+                            <userControls:FontAwesomeLabel.GestureRecognizers>
                                 <TapGestureRecognizer Tapped="EventSaveData" NumberOfTapsRequired="1"/>
-                            </Label.GestureRecognizers>
-                        </Label>
+                            </userControls:FontAwesomeLabel.GestureRecognizers>
+                        </userControls:FontAwesomeLabel>
 
                     </StackLayout>
                 </Grid>

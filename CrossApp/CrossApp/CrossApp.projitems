@@ -17,7 +17,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)FileManager.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)FontAwesomeLabel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UserControls\FontAwesomeLabel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IAppHandler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
@@ -25,5 +25,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\InterventiModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\JsonTreeModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)UserControls\" />
   </ItemGroup>
 </Project>

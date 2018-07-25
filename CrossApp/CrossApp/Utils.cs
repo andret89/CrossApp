@@ -1,13 +1,6 @@
-﻿using Android.Support.V4.Content;
-using Java.IO;
-using PCLStorage;
-using Plugin.FilePicker.Abstractions;
+﻿using PCLStorage;
 using Plugin.Permissions;
 using Plugin.Permissions.Abstractions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 

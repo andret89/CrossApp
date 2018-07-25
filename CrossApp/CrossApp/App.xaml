@@ -4,14 +4,14 @@
              x:Class="CrossApp.App">
     <Application.Resources>
         <OnPlatform x:TypeArguments="x:String" x:Key="SolidFont">
-            <On Platform="Android" Value="fa-solid-900.ttf#fa-solid-900" />
-            <On Platform="UWP" Value="/Assets/fa-solid-900.ttf#fa-solid-900" />
-            <On Platform="iOS" Value="fa-solid-900" />
+            <On Platform="Android" Value="FA_Solid.otf#FA_Solid" />
+            <On Platform="UWP" Value="/Assets/FA_Solid.otf#FA_Solid" />
+            <On Platform="iOS" Value="Font Awesome 5 Free" />
         </OnPlatform>
         <OnPlatform x:TypeArguments="x:String" x:Key="NormalFont">
-            <On Platform="Android" Value="fa-regular-400.ttf#fa-regular-400" />
-            <On Platform="UWP" Value="/Assets/fa-regular-400.ttf#fa-regular-400" />
-            <On Platform="iOS" Value="fa-regular-400" />
+            <On Platform="Android" Value="FA_Regular.otf#FA_Regular" />
+            <On Platform="UWP" Value="/Assets/FA_Regular.otf#FA_Regular" />
+            <On Platform="iOS" Value="Font Awesome 5 Free" />
         </OnPlatform>
     </Application.Resources>
 </Application>

@@ -81,6 +81,8 @@
   <ItemGroup>
     <AndroidAsset Include="Assets\fa-regular-400.ttf" />
     <AndroidAsset Include="Assets\fa-solid-900.ttf" />
+    <AndroidAsset Include="Assets\FA_Regular.otf" />
+    <AndroidAsset Include="Assets\FA_Solid.otf" />
     <None Include="Resources\AboutResources.txt" />
     <None Include="Assets\AboutAssets.txt" />
     <None Include="Properties\AndroidManifest.xml">

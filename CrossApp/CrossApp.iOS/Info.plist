@@ -36,7 +36,25 @@
     <string>Assets.xcassets/AppIcon.appiconset</string>
     <key>UIAppFonts</key>
     <array>
-      <string>FontAwesome.ttf</string>
+      <string>FA_Solid.otf</string>
     </array>
+    <key>NSCalendarsUsageDescription</key>
+    <string>Needs Calendar Permission</string>
+    <key>CFBundleURLSchemes</key>
+    <array>
+      <string>testot330i+com.companyname.CrossApp</string>
+    </array>
+    <key>CFBundleURLName</key>
+    <string>de.testo.testoCallbackURL</string>
+    <key>CFBundleTypeRole</key>
+    <string>Viewer</string>
+    <key>LSItemContentTypes</key>
+    <array>
+      <string>de.testo.testoApp.tjf</string>
+    </array>
+    <key>CFBundleTypeName</key>
+    <string>Testo JSON File</string>
+    <key>LSHandlerRank</key>
+    <string>Default</string>
   </dict>
 </plist>
