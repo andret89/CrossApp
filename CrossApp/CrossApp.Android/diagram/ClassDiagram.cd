@@ -1,0 +1,187 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="CrossApp.Droid.MainActivity">
+    <Position X="0.75" Y="1.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABAAAAAAAIAAAAAAEACAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MainActivity.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CrossApp.Droid.AppHandler">
+    <Position X="12.25" Y="0.5" Width="2" />
+    <Members>
+      <Field Name="context" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAQAAAAAICAAAIAAAAAAAAAAAAAQASAgAAA=</HashCode>
+      <FileName>AppHandler.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Xamarin.Forms.Platform.Android.FormsAppCompatActivity" Collapsed="true">
+    <Position X="0.75" Y="0.5" Width="2" />
+    <NestedTypes>
+      <Delegate Name="Xamarin.Forms.Platform.Android.FormsAppCompatActivity.BackButtonPressedEventHandler" Collapsed="true">
+        <TypeIdentifier />
+      </Delegate>
+    </NestedTypes>
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="CrossApp.Droid.IOUtil">
+    <Position X="9.25" Y="2.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAABAAABAAAAAAAAAAAIAAAAAgAAAAAAAEAABAAA=</HashCode>
+      <FileName>IOUtil.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CrossApp.Droid.MediaFileManager">
+    <Position X="12.5" Y="4.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAABAAAAAAAACAAAAAAAAgAAAAAAAEAABAAA=</HashCode>
+      <FileName>MediaFileManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CrossApp.Models.InterventiModel">
+    <Position X="5.75" Y="0.5" Width="2" />
+    <Members>
+      <Property Name="AdozValvole" Hidden="true" />
+      <Property Name="ComuneCliente" Hidden="true" />
+      <Property Name="ComuneImpianto" Hidden="true" />
+      <Property Name="ComuneImpresa" Hidden="true" />
+      <Property Name="FormatData" Hidden="true" />
+      <Property Name="FormatOra" Hidden="true" />
+      <Property Name="IDCliente" Hidden="true" />
+      <Property Name="ImpFunz" Hidden="true" />
+      <Property Name="INT_ADOZ_VALV" Hidden="true" />
+      <Property Name="INT_AP_DIM_ADEGUATE" Hidden="true" />
+      <Property Name="INT_AP_LIBERE_OSTR" Hidden="true" />
+      <Property Name="INT_ASSENZA_PERD_COMB" Hidden="true" />
+      <Property Name="INT_CI_DT_INSTALL" Hidden="true" />
+      <Property Name="INT_CI_ID" Hidden="true" />
+      <Property Name="INT_CI_MATRICOLA" Hidden="true" />
+      <Property Name="INT_CI_PROGRESSIVO" Hidden="true" />
+      <Property Name="INT_CLI_CF" Hidden="true" />
+      <Property Name="INT_CLI_COGNOME" Hidden="true" />
+      <Property Name="INT_CLI_ID_COMUNE" Hidden="true" />
+      <Property Name="INT_CLI_ID_PROV" Hidden="true" />
+      <Property Name="INT_CLI_INDIR" Hidden="true" />
+      <Property Name="INT_CLI_N_CIV" Hidden="true" />
+      <Property Name="INT_CLI_NOME" Hidden="true" />
+      <Property Name="INT_CLI_PI" Hidden="true" />
+      <Property Name="INT_CLI_RAG_SOC" Hidden="true" />
+      <Property Name="INT_DEPR_CAN_FUMO" Hidden="true" />
+      <Property Name="INT_DESC" Hidden="true" />
+      <Property Name="INT_DISP_COM_FUNZIONANTI" Hidden="true" />
+      <Property Name="INT_DISP_SIC_NON_MANOMESSI" Hidden="true" />
+      <Property Name="INT_DT" Hidden="true" />
+      <Property Name="INT_DT_CHIUSO" Hidden="true" />
+      <Property Name="INT_DT_CONTROLLO" Hidden="true" />
+      <Property Name="INT_DT_INVIO_CEE" Hidden="true" />
+      <Property Name="INT_DT_PREN" Hidden="true" />
+      <Property Name="INT_GENERATORI_IDONEI" Hidden="true" />
+      <Property Name="INT_ID" Hidden="true" />
+      <Property Name="INT_IMP_COD_CAT" Hidden="true" />
+      <Property Name="INT_IMP_DUREZZA_ACQ" Hidden="true" />
+      <Property Name="INT_IMP_ID" Hidden="true" />
+      <Property Name="INT_IMP_ID_COMUNE" Hidden="true" />
+      <Property Name="INT_IMP_ID_PROV" Hidden="true" />
+      <Property Name="INT_IMP_INDIR" Hidden="true" />
+      <Property Name="INT_IMP_INTERNO" Hidden="true" />
+      <Property Name="INT_IMP_N_CIV" Hidden="true" />
+      <Property Name="INT_IMP_PALAZZO" Hidden="true" />
+      <Property Name="INT_IMP_PT_TERM_NOM_MAX" Hidden="true" />
+      <Property Name="INT_IMP_SCALA" Hidden="true" />
+      <Property Name="INT_IMP_TRATT_ACS" Hidden="true" />
+      <Property Name="INT_IMP_TRATT_RISC" Hidden="true" />
+      <Property Name="INT_IMPIANTO_FUNZ" Hidden="true" />
+      <Property Name="INT_IMPR_ID_COMUNE" Hidden="true" />
+      <Property Name="INT_IMPR_ID_PROV" Hidden="true" />
+      <Property Name="INT_IMPR_INDIR" Hidden="true" />
+      <Property Name="INT_IMPR_N_CIV" Hidden="true" />
+      <Property Name="INT_IMPR_PI" Hidden="true" />
+      <Property Name="INT_IMPR_RAG_SOC" Hidden="true" />
+      <Property Name="INT_INTR_TRATT_ACS" Hidden="true" />
+      <Property Name="INT_ISOL_RETE" Hidden="true" />
+      <Property Name="INT_LIB_COMPILATO" Hidden="true" />
+      <Property Name="INT_LOCALE_IDONEO" Hidden="true" />
+      <Property Name="INT_MI_CLIMA_INVERN" Hidden="true" />
+      <Property Name="INT_MI_ID" Hidden="true" />
+      <Property Name="INT_MI_MARCA" Hidden="true" />
+      <Property Name="INT_MI_MOD_EVAC_FUMI" Hidden="true" />
+      <Property Name="INT_MI_MODELLO" Hidden="true" />
+      <Property Name="INT_MI_PROD_ACS" Hidden="true" />
+      <Property Name="INT_MI_PT_MAX_FOCOLARE" Hidden="true" />
+      <Property Name="INT_MI_PT_NOM_UTILE" Hidden="true" />
+      <Property Name="INT_MI_TC_DESC" Hidden="true" />
+      <Property Name="INT_MI_TC_ID" Hidden="true" />
+      <Property Name="INT_MI_TIPO_GT" Hidden="true" />
+      <Property Name="INT_MOD_TERM" Hidden="true" />
+      <Property Name="INT_ORA_ARRIVO" Hidden="true" />
+      <Property Name="INT_ORA_PARTENZA" Hidden="true" />
+      <Property Name="INT_OSSERVAZIONI" Hidden="true" />
+      <Property Name="INT_PRES_DICH_CONF" Hidden="true" />
+      <Property Name="INT_PRES_LIB_IMP" Hidden="true" />
+      <Property Name="INT_PRES_LIB_MAN_GEN" Hidden="true" />
+      <Property Name="INT_PRES_RIFLUSSO" Hidden="true" />
+      <Property Name="INT_PRESCRIZIONI" Hidden="true" />
+      <Property Name="INT_RACC_INT_DATA" Hidden="true" />
+      <Property Name="INT_RACCOMANDAZIONI" Hidden="true" />
+      <Property Name="INT_RIS_CONTR_UNI_10389" Hidden="true" />
+      <Property Name="INT_SCAMB_PULITO" Hidden="true" />
+      <Property Name="INT_SCAR_IDONEI" Hidden="true" />
+      <Property Name="INT_SIST_PROG" Hidden="true" />
+      <Property Name="INT_SIST_REG_FUNZIONANTI" Hidden="true" />
+      <Property Name="INT_SOC_ID_CLIENTE" Hidden="true" />
+      <Property Name="INT_SOC_ID_IMPR" Hidden="true" />
+      <Property Name="INT_SOC_ID_RESPONSABILE" Hidden="true" />
+      <Property Name="INT_SOC_ID_TECNICO" Hidden="true" />
+      <Property Name="INT_STATO" Hidden="true" />
+      <Property Name="INT_TBL_ID_TIPO_RESPONS" Hidden="true" />
+      <Property Name="INT_TEN_IMP_INT_IDONEA" Hidden="true" />
+      <Property Name="INT_TIPO" Hidden="true" />
+      <Property Name="INT_VALV_SIC" Hidden="true" />
+      <Property Name="IntrTrattACS" Hidden="true" />
+      <Property Name="IsolRete" Hidden="true" />
+      <Property Name="Marca" Hidden="true" />
+      <Property Name="MIClimaInvern" Hidden="true" />
+      <Property Name="MIProdACS" Hidden="true" />
+      <Property Name="Modello" Hidden="true" />
+      <Property Name="OraArrivo" Hidden="true" />
+      <Property Name="OraPartenza" Hidden="true" />
+      <Property Name="PresDichConf" Hidden="true" />
+      <Property Name="PresLibCompilato" Hidden="true" />
+      <Property Name="PresLibImp" Hidden="true" />
+      <Property Name="PresLibManGen" Hidden="true" />
+      <Property Name="ProvinciaCliente" Hidden="true" />
+      <Property Name="ProvinciaImpresa" Hidden="true" />
+      <Property Name="SiglaProvImpianto" Hidden="true" />
+      <Property Name="SistProg" Hidden="true" />
+      <Property Name="StatoIntervento" Hidden="true" />
+      <Property Name="Tecnico" Hidden="true" />
+      <Property Name="TipoComponente" Hidden="true" />
+      <Property Name="TipoIntervento" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>DhACSBu17aoCB0QGXAIDBkXyAHZKqkwBcd/h+BdMKoQ=</HashCode>
+      <FileName>C:\Users\Andrea\source\repos\CrossApp\CrossApp\CrossApp\Models\InterventiModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CrossApp.MainPage">
+    <Position X="3.5" Y="4" Width="1.75" />
+    <Members>
+      <Field Name="DictDeviceApp" Hidden="true" />
+      <Method Name="DoubleRound" Hidden="true" />
+      <Method Name="IsValidJSON" Hidden="true" />
+      <Method Name="IsValidXML" Hidden="true" />
+      <Field Name="ListAction" Hidden="true" />
+      <Method Name="MainPage" Hidden="true" />
+      <Method Name="RequestPermissionAsync" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AQAABAQAAAhABBAAQAAABAAAAAAAAAIAAIBAABAAAAA=</HashCode>
+      <FileName>C:\Users\Andrea\source\repos\CrossApp\CrossApp\CrossApp\MainPage.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

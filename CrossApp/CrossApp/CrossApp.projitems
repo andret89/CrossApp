@@ -31,4 +31,7 @@
     <Folder Include="$(MSBuildThisFileDirectory)ViewModels\" />
     <Folder Include="$(MSBuildThisFileDirectory)Views\" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)ClassDiagram.cd" />
+  </ItemGroup>
 </Project>
