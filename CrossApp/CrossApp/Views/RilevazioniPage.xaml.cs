@@ -1,4 +1,8 @@
-﻿using CrossApp.Models;
+﻿
+using Xamarin.Forms;
+using Xamarin.Forms.Xaml;
+
+using CrossApp.Models;
 using CrossApp.Services;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -12,10 +16,10 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Xml;
-using Xamarin.Forms;
 
 namespace CrossApp.Views
 {
+    [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class RilevazioniPage : ContentPage
     {
         Dictionary<string, string> DictDeviceAppDroid = new Dictionary<string, string>
@@ -28,8 +32,7 @@ namespace CrossApp.Views
             {"testot330","id992414788"},{"testot330i","id1007290554"}
 
         };
-
-
+        
         List<string> ListAction = new List<string>(
             new string[] { "testot330i", "testot330", "File", "Clipboard" });
 
@@ -42,13 +45,13 @@ namespace CrossApp.Views
 
         public RilevazioniPage(string data, string type)
         {
-           
-            
+
+
             if (type.Equals("text/xml"))
                 SetXmlToViewAsync(data);
             else
                  if (type.Equals("application/json"))
-                    SetJsonToViewAsync(data);
+                SetJsonToViewAsync(data);
 
         }
 
@@ -93,7 +96,7 @@ namespace CrossApp.Views
                         case Xamarin.Forms.Device.iOS:
                             var assembly = IntrospectionExtensions.GetTypeInfo(typeof(RilevazioniPage)).Assembly;
                             Stream stream = assembly.GetManifestResourceStream("CrossApp.iOS.Resources.Testo_data.xml");
-                           
+
                             using (var reader = new StreamReader(stream))
                             {
                                 dataString = reader.ReadToEnd();
@@ -107,7 +110,7 @@ namespace CrossApp.Views
                     if (!String.IsNullOrEmpty(dataString) || fileData != null)
                     {
                         string contents;
-                        if(fileData != null)
+                        if (fileData != null)
                             contents = System.Text.Encoding.UTF8.GetString(fileData.DataArray);
                         else
                             contents = dataString;

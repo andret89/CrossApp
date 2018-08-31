@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Application xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:conveters="clr-namespace:CrossApp.ViewModels"
              x:Class="CrossApp.App">
     <Application.Resources>
         <OnPlatform x:TypeArguments="x:String" x:Key="SolidFont">
@@ -13,5 +14,9 @@
             <On Platform="UWP" Value="/Assets/FA_Regular.otf#FA_Regular" />
             <On Platform="iOS" Value="Font Awesome 5 Free" />
         </OnPlatform>
+        <Style TargetType="Label">
+            <Setter Property="TextColor" Value="Black"/>
+        </Style>
+        
     </Application.Resources>
 </Application>

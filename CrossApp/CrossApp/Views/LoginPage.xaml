@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:CrossApp"
+             x:Class="CrossApp.Views.LoginPage"
+             BackgroundImage="backgroundDefault.jpg">
+    
+    <ContentPage.Content >
+        <StackLayout Orientation="Vertical" Padding="30" Spacing="40">
+            
+            <!--<Label Text="Main Pro" FontSize="60" TextColor="DarkGoldenrod" 
+                   FontAttributes="Bold" HorizontalOptions="CenterAndExpand" 
+                   VerticalOptions="Start" />-->
+
+            <Image Source="icona.png" HeightRequest="250" VerticalOptions="Start" 
+                   HorizontalOptions="CenterAndExpand" />
+            <Frame BackgroundColor="Transparent" HasShadow="True">
+                <StackLayout Orientation="Vertical" Spacing="10">
+                    <Entry x:Name="EmailEntry" Text="{Binding Email}" Placeholder="Email"   
+                           HeightRequest="40" Keyboard="Email" TextColor="Black"/>
+                    <Entry x:Name="PasswordEntry" Text="{Binding Password}" Placeholder="Password"   
+                           HeightRequest="40" IsPassword="True" TextColor="Black"/>
+                </StackLayout>
+            </Frame>
+            <Frame BackgroundColor="Transparent" HasShadow="True">
+            <Button Command="{Binding SubmitCommand}" Text="Login" TextColor="White"  
+                    FontAttributes="Bold" FontSize="Large" HorizontalOptions="FillAndExpand"  
+                    BackgroundColor="#088da5" />
+            </Frame>
+            <ActivityIndicator x:Name="loader" Color="Black" IsVisible="false" IsRunning="false" HorizontalOptions="Center"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

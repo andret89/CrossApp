@@ -4,12 +4,16 @@
              xmlns:local="clr-namespace:CrossApp"
              xmlns:userControls="clr-namespace:CrossApp.ViewModels"
              xmlns:models="clr-namespace:CrossApp.Models"
-             x:Class="CrossApp.RilevazioniPage"
-             Title="Controllo Fumi">
+             x:Class="CrossApp.Views.InterventiPage"
+             Title="Rilevazioni">
+    
     <ContentPage.BindingContext>
         <models:InterventiModel></models:InterventiModel>
     </ContentPage.BindingContext>
-    
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Logout" Clicked="OnLogoutClicked"/>
+        <ToolbarItem Text="Share" Clicked="OnShareButtonClicked"/>
+    </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <ScrollView>
             <StackLayout>
@@ -76,30 +80,25 @@
                     <Picker x:Name="DevicePicker" Grid.Row="11" Grid.Column="2" VerticalOptions="CenterAndExpand"
                             Title="Dispositivo" ItemsSource="AppList" ItemDisplayBinding="Value"/-->
 
-                    <StackLayout x:Name="tool_icone" Grid.Row="12" Grid.ColumnSpan="3" Orientation="Horizontal" 
-                                 HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
-                        <userControls:FontAwesomeLabel 
-                            Text="{x:Static userControls:Icon.FA_Import}"
-                            x:Name="btnImporta" 
-                            FontFamily="{StaticResource SolidFont}" 
-                            FontSize="60"
-                            HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand" >
-                            <userControls:FontAwesomeLabel.GestureRecognizers>
+                    <StackLayout Grid.Row="14" Grid.ColumnSpan="3" Orientation="Horizontal">
+                        <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+                            <userControls:FontAwesomeLabel Text="{x:Static userControls:Icon.FA_Import}" FontSize="80" 
+                                                           FontFamily="{StaticResource SolidFont}"  />
+                            <Label Text="Importa" TextColor="Black" FontSize="Medium" FontAttributes="Bold" 
+                                   HorizontalOptions="CenterAndExpand"/>
+                            <StackLayout.GestureRecognizers>
                                 <TapGestureRecognizer Tapped="EventImportJson" NumberOfTapsRequired="1"/>
-                            </userControls:FontAwesomeLabel.GestureRecognizers>
-                        </userControls:FontAwesomeLabel>
-
-                        <userControls:FontAwesomeLabel 
-                            Text="{x:Static userControls:Icon.FA_Save}" 
-                            x:Name="btnSalva" 
-                                    FontFamily="{StaticResource SolidFont}" 
-                                    FontSize="60"
-                                    HorizontalOptions="EndAndExpand" VerticalOptions="CenterAndExpand" >
-                            <userControls:FontAwesomeLabel.GestureRecognizers>
+                            </StackLayout.GestureRecognizers>
+                        </StackLayout>
+                        <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+                            <userControls:FontAwesomeLabel Text="{x:Static userControls:Icon.FA_Save}" FontSize="80" 
+                                                           FontFamily="{StaticResource SolidFont}" />
+                            <Label Text="Salva" TextColor="Black" FontSize="Medium" FontAttributes="Bold" 
+                                   HorizontalOptions="CenterAndExpand"/>
+                            <StackLayout.GestureRecognizers>
                                 <TapGestureRecognizer Tapped="EventSaveData" NumberOfTapsRequired="1"/>
-                            </userControls:FontAwesomeLabel.GestureRecognizers>
-                        </userControls:FontAwesomeLabel>
-
+                            </StackLayout.GestureRecognizers>
+                        </StackLayout>
                     </StackLayout>
                 </Grid>
             </StackLayout>

@@ -24,8 +24,18 @@ namespace CrossApp.iOS
         {
             global::Xamarin.Forms.Forms.Init();
             LoadApplication(new App());
-
+            App.PackageName = NSBundle.MainBundle.BundleIdentifier; 
             return base.FinishedLaunching(app, options);
         }
+
+        [Export("application:openURL:sourceApplication:annotation:")]
+        public override bool OpenUrl(UIApplication application, NSUrl url, string sourceApplication, NSObject annotation)
+        {
+            // custom stuff here using different properties of the url passed in
+            NSNotificationCenter.DefaultCenter.PostNotification(NSNotification.FromName("OpenMyFile", url));
+            Console.WriteLine($"OpenUrl iOS {sourceApplication}");
+            return true;
+        }
+
     }
 }

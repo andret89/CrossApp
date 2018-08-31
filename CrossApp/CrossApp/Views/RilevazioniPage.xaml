@@ -9,7 +9,7 @@
     <ContentPage.BindingContext>
         <models:InterventiModel></models:InterventiModel>
     </ContentPage.BindingContext>
-    
+
     <ContentPage.Content>
         <ScrollView>
             <StackLayout>

@@ -1,22 +1,25 @@
-﻿using CrossApp.Models;
-using CrossApp.Services;
+﻿using CrossApp.Services;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+using Xamarin.Forms;
+using Xamarin.Forms.Xaml;
+
+using CrossApp.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Plugin.FilePicker;
 using Plugin.FilePicker.Abstractions;
-using Plugin.Permissions;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 using System.Xml;
-using Xamarin.Forms;
 
 namespace CrossApp.Views
 {
-    public partial class RilevazioniPage : ContentPage
+    [XamlCompilation(XamlCompilationOptions.Compile)]
+    public partial class InterventiPage : ContentPage
     {
         Dictionary<string, string> DictDeviceAppDroid = new Dictionary<string, string>
         {
@@ -26,52 +29,33 @@ namespace CrossApp.Views
         Dictionary<string, string> DictDeviceAppIOS = new Dictionary<string, string>
         {
             {"testot330","id992414788"},{"testot330i","id1007290554"}
-
         };
-
 
         List<string> ListAction = new List<string>(
             new string[] { "testot330i", "testot330", "File", "Clipboard" });
 
-        public RilevazioniPage()
+        InterventiModel interventi = new InterventiModel();
+
+        public InterventiPage()
         {
             InitializeComponent();
-            RequestPermissionAsync();
-
         }
 
-        public RilevazioniPage(string data, string type)
+        public InterventiPage(string data, string type)
         {
-           
-            
+            InitializeComponent();
             if (type.Equals("text/xml"))
                 SetXmlToViewAsync(data);
             else
-                 if (type.Equals("application/json"))
-                    SetJsonToViewAsync(data);
-
-        }
-
-        private async Task<bool> RequestPermissionAsync()
-        {
-            var status = await CrossPermissions.Current.CheckPermissionStatusAsync(Plugin.Permissions.Abstractions.Permission.Storage);
-            if (status != Plugin.Permissions.Abstractions.PermissionStatus.Granted)
-                status = await Utils.CheckPermissions(Plugin.Permissions.Abstractions.Permission.Storage);
-            if (status == Plugin.Permissions.Abstractions.PermissionStatus.Granted)
-                return true;
-            return false;
-        }
-
-        async void Handle_Clicked(object sender, System.EventArgs e)
-        {
-            await Navigation.PopAsync(true);
+                if (type.Equals("application/json"))
+                SetJsonToViewAsync(data);
+            BindingContext = interventi;
         }
 
         private async void EventImportJson(object sender, EventArgs e)
         {
             string action = await DisplayActionSheet("Importa da", "Cancel", null,
-                ListAction.ElementAt(0), ListAction.ElementAt(1), ListAction.ElementAt(2),
-                ListAction.ElementAt(3));
+                ListAction.ElementAt(0), ListAction.ElementAt(1), ListAction.ElementAt(2));
             switch (action)
             {
                 case "File":
@@ -91,9 +75,9 @@ namespace CrossApp.Views
                             }
                             break;
                         case Xamarin.Forms.Device.iOS:
-                            var assembly = IntrospectionExtensions.GetTypeInfo(typeof(RilevazioniPage)).Assembly;
+                            var assembly = IntrospectionExtensions.GetTypeInfo(typeof(InterventiPage)).Assembly;
                             Stream stream = assembly.GetManifestResourceStream("CrossApp.iOS.Resources.Testo_data.xml");
-                           
+
                             using (var reader = new StreamReader(stream))
                             {
                                 dataString = reader.ReadToEnd();
@@ -107,15 +91,15 @@ namespace CrossApp.Views
                     if (!String.IsNullOrEmpty(dataString) || fileData != null)
                     {
                         string contents;
-                        if(fileData != null)
+                        if (fileData != null)
                             contents = System.Text.Encoding.UTF8.GetString(fileData.DataArray);
                         else
                             contents = dataString;
-                        if (IsValidXML(contents))
+                        if (Utils.IsValidXML(contents))
                             await SetXmlToViewAsync(contents);
                         else
                         {
-                            if (IsValidJSON(contents))
+                            if (Utils.IsValidJSON(contents))
                                 await SetJsonToViewAsync(contents);
                         }
                     }
@@ -138,9 +122,7 @@ namespace CrossApp.Views
                         Console.WriteLine(ex.Message);
                         await DisplayAlert("Errore", $"verifica se è presente l'applicazione {action}", "ok");
                     }
-
                     break;
-
             }
         }
 
@@ -163,7 +145,6 @@ namespace CrossApp.Views
             string appIdStrore = null;
             switch (Xamarin.Forms.Device.RuntimePlatform)
             {
-
                 case Xamarin.Forms.Device.Android:
                     appIdStrore = DictDeviceAppDroid.GetValueOrDefault(AppName);
                     if (!DependencyService.Get<IAppHandler>().IsAppInstalled(appIdStrore, null))
@@ -203,17 +184,16 @@ namespace CrossApp.Views
 
         public async Task<bool> SetXmlToViewAsync(string xmlStr)
         {
-            bool status = await RequestPermissionAsync();
+            bool status = await Utils.RequestPermissionAsync();
             if (status)
             {
-                if (IsValidXML(xmlStr))
+                if (Utils.IsValidXML(xmlStr))
                 {
                     XmlDocument objRoot = new XmlDocument();
                     objRoot.LoadXml(xmlStr);
 
                     if (objRoot != null)
                     {
-                        var interventi = new InterventiModel();
                         string ret;
                         if ((ret = GetXmlValue("T_Flue", objRoot)) != null)
                             interventi.INT_SENS_TEMP_FUMI = Convert.ToDouble(ret.Replace(".", ","));
@@ -241,22 +221,6 @@ namespace CrossApp.Views
 
             }
             return status;
-        }
-
-        static bool IsValidXML(string xmlContent)
-        {
-            try
-            {
-                System.Xml.XmlDocument doc = new System.Xml.XmlDocument();
-
-                doc.LoadXml(xmlContent);
-            }
-            catch
-            {
-                return false;
-            }
-
-            return true;
         }
 
         private string GetJSONValue(string key, JsonTreeModel root)
@@ -293,16 +257,16 @@ namespace CrossApp.Views
 
         public async Task<bool> SetJsonToViewAsync(string jsonStr)
         {
-            bool status = await RequestPermissionAsync();
+            bool status = await Utils.RequestPermissionAsync();
             if (status)
             {
-                if (IsValidJSON(jsonStr))
+                if (Utils.IsValidJSON(jsonStr))
                 {
                     var objRoot = JsonConvert.DeserializeObject<JsonTreeModel>(jsonStr);
 
                     if (objRoot != null)
                     {
-                        var interventi = new InterventiModel();
+
                         string ret;
                         if ((ret = GetJSONValue("T_Flue", objRoot)) != null)
                             interventi.INT_SENS_TEMP_FUMI = Convert.ToDouble(ret.Replace(".", ","));
@@ -321,7 +285,6 @@ namespace CrossApp.Views
                         if ((ret = GetJSONValue("CO2Max", objRoot)) != null)
                             interventi.INT_SENS_CO2 = Convert.ToDouble(ret.Replace(".", ",").Replace("%", ""));
 
-                        BindingContext = interventi;
                         return true;
                     }
                 }
@@ -331,28 +294,14 @@ namespace CrossApp.Views
             return false;
         }
 
-        private bool IsValidJSON(string strInput)
+        private void OnLogoutClicked(object sender, EventArgs e)
         {
-            strInput = strInput.Trim();
-            if ((strInput.StartsWith("{") && strInput.EndsWith("}")) || //For object
-                (strInput.StartsWith("[") && strInput.EndsWith("]"))) //For array
-            {
-                try
-                {
-                    var obj = JToken.Parse(strInput);
-                    return true;
-                }
-                catch (Exception) //some other exception
-                { }
-            }
-            return false;
+            ((App)Application.Current).OnLogout();
         }
 
-        private double DoubleRound(double value)
+        private void OnShareButtonClicked(object sender, EventArgs e)
         {
-            return Math.Round(value, 3);
+            ((App)Application.Current).OnShare();
         }
     }
-
 }
-

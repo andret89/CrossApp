@@ -23,6 +23,7 @@ namespace CrossApp.Droid
 
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
+            App.PackageName = Application.Context.PackageName;
             CrossCurrentActivity.Current.Init(this, bundle);
 
             base.OnCreate(bundle);

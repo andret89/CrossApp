@@ -1,15 +1,16 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace CrossApp.Services
 {
     public interface IAppHandler
     {
-        void GetFileChoice();
+        string FileChoice();
         string GetTextFromClipboard();
         void OpenPDF(string file);
         void DownloadFile(string fileName_, Byte[] document_);
-        bool IsAppInstalled(string appName);
-        void InstallApplication(string appPackageName);
+        bool IsAppInstalled(string packageName, string appName);
+        void InstallApplication(string packageName, string appName);
         void OpenURL(string url);
 
     }

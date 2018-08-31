@@ -1,6 +1,8 @@
-﻿using PCLStorage;
+﻿using Newtonsoft.Json.Linq;
+using PCLStorage;
 using Plugin.Permissions;
 using Plugin.Permissions.Abstractions;
+using System;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
@@ -80,6 +82,52 @@ namespace CrossApp.Services
             IFile file = await folder.CreateFileAsync(name,
                 CreationCollisionOption.ReplaceExisting);
             return await file.ReadAllTextAsync();
+        }
+
+        public static async Task<bool> RequestPermissionAsync()
+        {
+            var status = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Storage);
+            if (status != PermissionStatus.Granted)
+                status = await Utils.CheckPermissions(Permission.Storage);
+            if (status == PermissionStatus.Granted)
+                return true;
+            return false;
+        }
+
+        public static bool IsValidJSON(string strInput)
+        {
+            strInput = strInput.Trim();
+            if ((strInput.StartsWith("{") && strInput.EndsWith("}")) || //For object
+                (strInput.StartsWith("[") && strInput.EndsWith("]"))) //For array
+            {
+                try
+                {
+                    var obj = JToken.Parse(strInput);
+                    return true;
+                }
+                catch (Exception) //some other exception
+                { }
+            }
+            return false;
+        }
+
+        public static bool IsValidXML(string xmlContent)
+        {
+            try
+            {
+                System.Xml.XmlDocument doc = new System.Xml.XmlDocument();
+                doc.LoadXml(xmlContent);
+            }
+            catch
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public static double DoubleRound(double value)
+        {
+            return Math.Round(value, 3);
         }
     }
 }

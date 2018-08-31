@@ -4,6 +4,7 @@ using CrossApp.Services;
 using Plugin.CurrentActivity;
 using System;
 using System.IO;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 [assembly: Dependency(typeof(CrossApp.Droid.AppHandler))]
@@ -14,7 +15,7 @@ namespace CrossApp.Droid
     {
         Context context = Android.App.Application.Context;
 
-        public void GetFileChoice()
+        public void GetFileChoiceData()
         {
             var intent = new Intent();
             intent.SetType("*/*");
@@ -71,7 +72,7 @@ namespace CrossApp.Droid
             context.StartActivity(intentChooser);
         }
 
-        public bool IsAppInstalled(string packageName)
+        public bool IsAppInstalled(string packageName, string appName)
         {
             bool installed = false;
             try
@@ -106,7 +107,7 @@ namespace CrossApp.Droid
             return uri;
         }
 
-        public void InstallApplication(string appPackageName)
+        public void InstallApplication(string appPackageName, string appName)
         {
             Intent marketIntent = new Intent(Intent.ActionView);
             marketIntent.SetData(Android.Net.Uri.Parse($"market://details?id={appPackageName}"));
@@ -127,6 +128,16 @@ namespace CrossApp.Droid
                 context.StartActivity(intent);
             }
 
+        }
+
+        string FileChoice()
+        {
+            throw new NotImplementedException();
+        }
+
+        string IAppHandler.FileChoice()
+        {
+            throw new NotImplementedException();
         }
     }
 
