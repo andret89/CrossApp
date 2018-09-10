@@ -3,16 +3,23 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:CrossApp"
              x:Class="CrossApp.Views.LoginPage"
-             BackgroundImage="backgroundDefault.jpg">
-    
-    <ContentPage.Content >
+             Title="MAIN PRO"
+             BackgroundImage="backgroundDefault1.jpg">
+
+    <ContentPage.Content>
         <StackLayout Orientation="Vertical" Padding="30" Spacing="40">
-            
+            <StackLayout.Padding>
+                <OnPlatform x:TypeArguments="Thickness">
+                    <On Platform="Android, WinPhone">0</On>
+                    <On Platform="iOS">0,20,0,0</On>
+                </OnPlatform>
+            </StackLayout.Padding>
+
             <!--<Label Text="Main Pro" FontSize="60" TextColor="DarkGoldenrod" 
                    FontAttributes="Bold" HorizontalOptions="CenterAndExpand" 
                    VerticalOptions="Start" />-->
 
-            <Image Source="icona.png" HeightRequest="250" VerticalOptions="Start" 
+            <Image Source="icona.png" HeightRequest="150" VerticalOptions="Start" 
                    HorizontalOptions="CenterAndExpand" />
             <Frame BackgroundColor="Transparent" HasShadow="True">
                 <StackLayout Orientation="Vertical" Spacing="10">
@@ -23,7 +30,7 @@
                 </StackLayout>
             </Frame>
             <Frame BackgroundColor="Transparent" HasShadow="True">
-            <Button Command="{Binding SubmitCommand}" Text="Login" TextColor="White"  
+                <Button Command="{Binding SubmitCommand}" Text="Login" TextColor="White"  
                     FontAttributes="Bold" FontSize="Large" HorizontalOptions="FillAndExpand"  
                     BackgroundColor="#088da5" />
             </Frame>

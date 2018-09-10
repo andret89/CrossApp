@@ -12,7 +12,7 @@
     </ContentPage.BindingContext>
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Logout" Clicked="OnLogoutClicked"/>
-        <ToolbarItem Text="Share" Clicked="OnShareButtonClicked"/>
+        <!--<ToolbarItem Text="Share" Clicked="OnShareButtonClicked"/>-->
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <ScrollView>

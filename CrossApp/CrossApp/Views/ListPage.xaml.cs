@@ -18,7 +18,7 @@ namespace CrossApp.Views
 		}
         private void ToolbarItem_Clicked(object sender, EventArgs e)
         {
-            ((App)Application.Current).OnLogout();
+            ((App)Application.Current).OnLogoutAsync();
         }
 
         private async Task OnTapIntervento(object sender, EventArgs e)

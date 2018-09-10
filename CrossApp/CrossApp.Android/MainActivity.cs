@@ -8,6 +8,8 @@ using Android.Content;
 using Plugin.CurrentActivity;
 using Plugin.Permissions;
 using System;
+using Plugin.Toasts;
+using Xamarin.Forms;
 
 namespace CrossApp.Droid
 {
@@ -20,14 +22,16 @@ namespace CrossApp.Droid
     {
         protected override void OnCreate(Bundle bundle)
         {
+            base.OnCreate(bundle);
 
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
-            App.PackageName = Application.Context.PackageName;
             CrossCurrentActivity.Current.Init(this, bundle);
+            App.PackageName = CrossCurrentActivity.Current.AppContext.PackageName;
 
-            base.OnCreate(bundle);
-
+            
+            DependencyService.Register<ToastNotification>(); // Register your dependency
+            ToastNotification.Init(this);
             global::Xamarin.Forms.Forms.Init(this, bundle);
 
             LoadApplication(new App());
@@ -83,7 +87,7 @@ namespace CrossApp.Droid
                 }
             }
         }
-        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
+        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Permission[] grantResults)
         {
             PermissionsImplementation.Current.OnRequestPermissionsResult(requestCode, permissions, grantResults);
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);

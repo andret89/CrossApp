@@ -1,8 +1,5 @@
-﻿using CrossApp.Views;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.ComponentModel;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -56,7 +53,7 @@ namespace CrossApp.ViewModels
             if (!String.IsNullOrEmpty(Email) && !String.IsNullOrEmpty(Password))
             {
                 if (Email.Trim().Equals("opti@optisoft.it") && Password.Trim().Equals("opti"))
-                    ((App)Application.Current).OnLogin();
+                    ((App)Application.Current).OnLoginAsync();
                 else
                     DisplayInvalidLoginPrompt();
             }

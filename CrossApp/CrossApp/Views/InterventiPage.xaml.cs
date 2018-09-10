@@ -9,12 +9,15 @@ using Xamarin.Forms.Xaml;
 
 using CrossApp.Models;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using Plugin.FilePicker;
 using Plugin.FilePicker.Abstractions;
 using System.IO;
 using System.Reflection;
 using System.Xml;
+using Plugin.ShareFile;
+using System.Diagnostics;
+using Plugin.Toasts;
+using Plugin.LocalNotifications;
 
 namespace CrossApp.Views
 {
@@ -24,7 +27,6 @@ namespace CrossApp.Views
         Dictionary<string, string> DictDeviceAppDroid = new Dictionary<string, string>
         {
             {"testot330i","de.testo.ias2015app"},{"testot330","testo.android.reader"}
-            //{ "testosmartprobes","de.testo.smartprobesapp"}
         };
         Dictionary<string, string> DictDeviceAppIOS = new Dictionary<string, string>
         {
@@ -59,35 +61,40 @@ namespace CrossApp.Views
             switch (action)
             {
                 case "File":
-
                     FileData fileData = null;
                     var dataString = "";
-                    switch (Xamarin.Forms.Device.RuntimePlatform)
-                    {
-                        case Xamarin.Forms.Device.Android:
-                            try
-                            {
-                                fileData = await CrossFilePicker.Current.PickFile();
-                            }
-                            catch (Exception ex)
-                            {
-                                Console.WriteLine(ex.Message);
-                            }
-                            break;
-                        case Xamarin.Forms.Device.iOS:
-                            var assembly = IntrospectionExtensions.GetTypeInfo(typeof(InterventiPage)).Assembly;
-                            Stream stream = assembly.GetManifestResourceStream("CrossApp.iOS.Resources.Testo_data.xml");
 
-                            using (var reader = new StreamReader(stream))
-                            {
-                                dataString = reader.ReadToEnd();
-                            }
-                            break;
-                        default:
-                            var str = DependencyService.Get<IAppHandler>().FileChoice();
-                            fileData = new FileData();
-                            break;
+#if __IOS__
+                /*  
+                    var fileName = "Testo_data.xml";
+                    var documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+                    string filePath = Path.Combine(documentsPath, fileName);
+                    dataString = File.ReadAllText(filePath);
+                
+                */ 
+                    var assembly = IntrospectionExtensions.GetTypeInfo(typeof(InterventiPage)).Assembly;
+                    Stream stream = assembly.GetManifestResourceStream("CrossApp.iOS.Resources.Testo_data.xml");
+
+                    using (var reader = new StreamReader(stream))
+                    {
+                        dataString = reader.ReadToEnd();
                     }
+            
+#elif __ANDROID__
+                   
+                    try
+                    {
+                        fileData = await CrossFilePicker.Current.PickFile();
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine(ex.Message);
+                    }
+#else
+                    var str = DependencyService.Get<IAppHandler>().FileChoice();
+                    fileData = new FileData();
+#endif
+
                     if (!String.IsNullOrEmpty(dataString) || fileData != null)
                     {
                         string contents;
@@ -102,6 +109,7 @@ namespace CrossApp.Views
                             if (Utils.IsValidJSON(contents))
                                 await SetJsonToViewAsync(contents);
                         }
+                        BindingContext = interventi;
                     }
                     else
                         await DisplayAlert("Errore", "File non valido", "ok");
@@ -126,46 +134,38 @@ namespace CrossApp.Views
             }
         }
 
-        private void EventSaveData(object sender, EventArgs e)
+        private async void EventSaveData(object sender, EventArgs e)
         {
-            string path = @"/storage/emulated/0/Testo/Prova.pdf";
-            string fileName = @"/Testo/prova.pdf";
-            DependencyService.Get<IAppHandler>().OpenPDF(fileName);
-            //var application_id = "com.companyname.CrossApp";
-            //var parameter = "targetapplication=default";
-            //var appDevice = "testot330i";
-            //var url = $"{appDevice}+{application_id}" +
-            //    $"://data?userinfo=parameter&json=base64_encoded_data";
-            //DependencyService.Get<IAppHandler>().OpenURL(url);
+            Plugin.XSnack.CrossXSnack.Current.ShowMessage("Salvataggio su db", 3);
+            //CrossLocalNotifications.Current.Show("Info","Salvataggio su db");
+            //var notificator = DependencyService.Get<IToastNotificator>();
+            new NotImplementedException();
 
         }
 
         private async Task EventOpenAppAsync(string AppName)
         {
             string appIdStrore = null;
-            switch (Xamarin.Forms.Device.RuntimePlatform)
-            {
-                case Xamarin.Forms.Device.Android:
-                    appIdStrore = DictDeviceAppDroid.GetValueOrDefault(AppName);
-                    if (!DependencyService.Get<IAppHandler>().IsAppInstalled(appIdStrore, null))
-                    {
-                        if (await DisplayAlert("Errore", $"Installare l'applicazione {AppName}", "ok", "cancel"))
-                            DependencyService.Get<IAppHandler>().InstallApplication(appIdStrore, AppName);
-                        return;
-                    }
-                    break;
-                case Xamarin.Forms.Device.iOS:
-                    appIdStrore = DictDeviceAppDroid.GetValueOrDefault(AppName);
-                    break;
-                default:
-                    break;
-            }
 
-            var application_id = App.PackageName; ; //"com.companyname.CrossApp";
+#if __iOS__
+            appIdStrore = DictDeviceAppIOS.GetValueOrDefault(AppName);
+
+#endif
+            appIdStrore = DictDeviceAppDroid.GetValueOrDefault(AppName);
+#if __ANDROID__
+            if (!DependencyService.Get<IAppHandler>().IsAppInstalled(appIdStrore, null))
+                if (await DisplayAlert("Errore", $"Installare l'applicazione {AppName}", "ok", "cancel"))
+                {
+                    DependencyService.Get<IAppHandler>().InstallApplication(appIdStrore, AppName);
+                    return;
+                }
+#endif
+            string application_id = App.PackageName; ; //"com.companyname.CrossApp";
             var parameter = "targetapplication=default";
 
             string url = $"{AppName}://start?userinfo={parameter}," +
                     $"language=it_IT,tutorial=false&bundleid={application_id}";
+
 
             Xamarin.Forms.Device.BeginInvokeOnMainThread(() =>
             {
@@ -212,7 +212,6 @@ namespace CrossApp.Views
                         if ((ret = GetXmlValue("CO2Max", objRoot)) != null)
                             interventi.INT_SENS_CO2 = Convert.ToDouble(ret.Replace(".", ",").Replace("%", ""));
 
-                        BindingContext = interventi;
                         return true;
                     }
                 }
@@ -249,7 +248,7 @@ namespace CrossApp.Views
                     }
                 }
             }
-            if (ret.Equals("-"))
+            if (ret != null && ret.Equals("-"))
                 ret = null;
 
             return ret;
@@ -296,7 +295,7 @@ namespace CrossApp.Views
 
         private void OnLogoutClicked(object sender, EventArgs e)
         {
-            ((App)Application.Current).OnLogout();
+            ((App)Application.Current).OnLogoutAsync();
         }
 
         private void OnShareButtonClicked(object sender, EventArgs e)

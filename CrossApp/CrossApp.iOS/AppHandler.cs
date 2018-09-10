@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using CrossApp.Services;
 using Foundation;
 using MobileCoreServices;
-using ObjCRuntime;
 using UIKit;
 using Xamarin.Forms;
 
